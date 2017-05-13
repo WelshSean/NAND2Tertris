@@ -42,5 +42,27 @@ CHIP ALU {
         ng; // 1 if (out < 0),  0 otherwise
 
     PARTS:
-   // Put you code here:
+   // X Preprocessing
+   Mux16(a=x, b[0..15]=false, sel=zx, out=outzx);
+   Not16(in=outzx, out=notoutzx);
+   Mux16(a=outzx, b=notoutzx, sel=nx, out=outnx);
+   // Y Preprocessing
+   Mux16(a=y, b[0..15]=false, sel=zy, out=outzy);
+   Not16(in=outzy, out=notoutzy);
+   Mux16(a=outzy, b=notoutzy, sel=ny, out=outny);
+   // F
+   And16(a=outnx, b=outny, out=outandf);
+   Add16(a=outnx, b=outny, out=outaddf);
+   Mux16(a=outandf, b=outaddf, sel=f, out=outf);
+   // Last not step
+   Not16(in=outf,out=outnotf);
+   Mux16(a=outf, b=outnotf, sel=no, out[0..7]=outlow, out[8..15]=outhigh,out[15]=msb, out=out);
+   // generate zr
+   Or8Way(in=outlow, out=oroutlow);
+   Or8Way(in=outhigh, out=orouthigh);
+   Or(a=oroutlow, b=orouthigh, out=orout );
+   Not(in=orout, out=zr);
+   // Generate ng
+   And(a=msb, b=true, out=ng);
+
 }
