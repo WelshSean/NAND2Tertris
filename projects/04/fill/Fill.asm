@@ -12,3 +12,58 @@
 // the screen should remain fully clear as long as no key is pressed.
 
 // Put your code here.
+
+// fill - will be 0 if we arent writing anything or -1 if we want to write 16 bits of 1
+	@8191
+	D=A
+	@num
+	M=D 		// n=8191 - number of 16-bit words to blank the screen
+
+
+// spoint - screen pointer - used to iterate over the memory locations that represent the screen
+// 							 Screen is 512 x 256, each row is 32 consecutive 16-bit words
+//							 ie we will need to write 256 x 32 16-bit words
+//							  we initialise to the base address
+	@SCREEN
+	D=A
+	@spoint
+	M=D
+
+(MAININFINITE)
+	@KBD
+	D=M
+	@KEYPRESSED
+	D;JNE 
+
+// Note that if we didnt JUMP them we get here which means that no key is pressed
+	@MAININFINITE
+	0;JMP
+
+
+(KEYPRESSED)
+	@1		//initialise counter variable
+	D=A
+	@n
+	M=D
+(SCREENLOOP)
+	@spoint		
+	A=M 			// Load pointer into address register
+	M=-1			// Write -1 (16 pixels) into the relevant place in the Screen memory map
+	@spoint
+	M=M+1			// increment the pointer address
+
+	@n  			// increment the counter
+	M=M+1
+
+	@num
+	D=M
+	@n
+	D=D-M			// Carry on looping if current index - number of 16-bit words needed > 0
+	@SCREENLOOP
+	D;JGT
+
+
+
+
+	@MAININFINITE
+	0;JMP
