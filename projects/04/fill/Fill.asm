@@ -19,15 +19,21 @@
 	@num
 	M=D 		// n=8191 - number of 16-bit words to blank the screen
 
-
-
-
-(MAININFINITE)
 // spoint - screen pointer - used to iterate over the memory locations that represent the screen
 // 							 Screen is 512 x 256, each row is 32 consecutive 16-bit words
 //							 ie we will need to write 256 x 32 16-bit words
 //							  we initialise to the base address
 
+
+
+
+(MAININFINITE)
+	@KBD					// Check if a key is pressed and jump out of maininifite if true
+	D=M
+	@KEYPRESSED
+	D;JNE 
+
+// Note that if we didnt JUMP them we get here which means that no key is pressed - blank the screen and carry on looping inifitely
 	@SCREEN
 	D=A
 	@spoint
@@ -56,14 +62,6 @@
 	D=D-M			// Carry on looping if current index - number of 16-bit words needed > 0
 	@BLANKLOOP
 	D;JGT
-
-
-	@KBD					// Check if a key is pressed and jump out of maininifite if true
-	D=M
-	@KEYPRESSED
-	D;JNE 
-
-// Note that if we didnt JUMP them we get here which means that no key is pressed - carry on looping inifitely
 	@MAININFINITE			
 	0;JMP
 
@@ -73,7 +71,7 @@
 	D=A
 	@spoint
 	M=D
-	
+
 	@1		//initialise counter variable
 	D=A
 	@n
