@@ -41,7 +41,7 @@
 
 // First of alll blank the screen just in case we'd filled it!
 
-	@1		//initialise counter variable
+	@0		//initialise counter variable
 	D=A
 	@n
 	M=D
@@ -72,7 +72,7 @@
 	@spoint
 	M=D
 
-	@1		//initialise counter variable
+	@0		//initialise counter variable
 	D=A
 	@n
 	M=D
