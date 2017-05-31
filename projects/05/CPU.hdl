@@ -40,13 +40,16 @@ CHIP CPU {
 
     PARTS:
     // Put your code here:
-    Mux16(a=instruction, b=outALU, sel=instruction[15], out=outARegisterMux);                                                        // Input Mux
-    ARegister(in=outARegisterMux, load=instruction[5], out=outARegister);                                                            // A Register - load is d1
-    ALU(x=outALUMux, y=outDRegister, zy=instruction[11], ny=instruction[10], zx=instruction[9], 
-        ny=instruction[8], f=instruction[7], no=instruction[6], out=outALU, zr=ALUIsZero, ng=ALUIsNeg);
-    Mux16(a=inM, b=outARegister, sel=instruction[12], out=outALUMux, out=outM);                                                      // Mux preceeding ALU, sel is a
+    Not(in=instruction[15], out=notInstructionfifteen);
+    Mux16(a=outALU, b=instruction, sel=notInstructionfifteen, out=outARegisterMux);   // Input Mux  
+    Not(in=instruction[12], out=notAOperand);                                                
+    ARegister(in=outARegisterMux, load=instruction[5], out=outARegister, out[0..14]=addressM);                               // A Register 
+    ALU(x=outDRegister, y=outALUMux,  zy=instruction[11], ny=instruction[10], zx=instruction[9], 
+        nx=instruction[8], f=instruction[7], no=instruction[6], out=outALU, zr=ALUIsZero, ng=ALUIsNeg);
+
+    Mux16(a=outARegister, b=inM,  sel=notAOperand, out=outALUMux, out=outM);                                                      // Mux preceeding ALU, sel is a
     DRegister(in=outALU, load=instruction[4], out=outDRegister);                                                                     // D Register - load is d2
-    PC(in=outARegister, load=ALUPosNegorALUIsZero, inc=notj1AndNotj2AndNotj3, reset=reset, out[0..14]=pc);                           // 15 bits - strip off operand
+    PC(in=outARegister, load=ALUPosNegorALUIsZero, inc=notj1AndNotj2AndNotj3OroperandIsZero, reset=reset, out[0..14]=pc);                           // 15 bits - strip off operand
 
     // PC Logic
 
@@ -57,6 +60,8 @@ CHIP CPU {
     Not(in=instruction[0], out=notj3);                                                                                                   // Not j3
     And(a=notj1, b=notj2, out=notj1AndNotj2);                                                                                            // Not j1 and not j2
     And(a=notj1AndNotj2, b=notj3, out=notj1AndNotj2AndNotj3);                                                                            // Not j1 and not j2 and not j3 => inc
+    Not(in=instruction[15], out=operandIsZero);
+    Or(a=notj1AndNotj2AndNotj3, b=operandIsZero, out=notj1AndNotj2AndNotj3OroperandIsZero);
 
     // Jump
     And(a=instruction[2], b=ALUIsNeg, out=j1AndALUIsNeg);                                                                                // jump because ALU output negative
@@ -68,7 +73,7 @@ CHIP CPU {
 
 
     // send d3 => writeM
-    And(a=instruction[3],b=instruction[3], out=writeM);
+    And(a=instruction[3],b=instruction[15], out=writeM);
     
 
 }
