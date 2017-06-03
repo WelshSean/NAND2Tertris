@@ -42,8 +42,9 @@ CHIP CPU {
     // Put your code here:
     Not(in=instruction[15], out=notInstructionfifteen);
     Mux16(a=outALU, b=instruction, sel=notInstructionfifteen, out=outARegisterMux);   // Input Mux  
-    Not(in=instruction[12], out=notAOperand);                                                
-    ARegister(in=outARegisterMux, load=instruction[5], out=outARegister, out[0..14]=addressM);                               // A Register 
+    Not(in=instruction[12], out=notAOperand);   
+    Or(a=instruction[5], b=notInstructionfifteen, out=instruction5OrnotInstructionfifteen);                                          
+    ARegister(in=outARegisterMux, load=instruction5OrnotInstructionfifteen, out=outARegister, out[0..14]=addressM); // A Register - load if d1 (instruction fifteen, or A instructioN)
     ALU(x=outDRegister, y=outALUMux,  zy=instruction[9], ny=instruction[8], zx=instruction[11], 
         nx=instruction[10], f=instruction[7], no=instruction[6], out=outALU, out=outM, zr=ALUIsZero, ng=ALUIsNeg);
 
