@@ -44,12 +44,12 @@ CHIP CPU {
     Mux16(a=outALU, b=instruction, sel=notInstructionfifteen, out=outARegisterMux);   // Input Mux  
     Not(in=instruction[12], out=notAOperand);                                                
     ARegister(in=outARegisterMux, load=instruction[5], out=outARegister, out[0..14]=addressM);                               // A Register 
-    ALU(x=outDRegister, y=outALUMux,  zy=instruction[11], ny=instruction[10], zx=instruction[9], 
-        nx=instruction[8], f=instruction[7], no=instruction[6], out=outALU, zr=ALUIsZero, ng=ALUIsNeg);
+    ALU(x=outDRegister, y=outALUMux,  zy=instruction[9], ny=instruction[8], zx=instruction[11], 
+        nx=instruction[10], f=instruction[7], no=instruction[6], out=outALU, out=outM, zr=ALUIsZero, ng=ALUIsNeg);
 
-    Mux16(a=outARegister, b=inM,  sel=notAOperand, out=outALUMux, out=outM);                                                      // Mux preceeding ALU, sel is a
+    Mux16(a=outARegister, b=inM,  sel=instruction[12], out=outALUMux);                                                      // Mux preceeding ALU, sel is a
     DRegister(in=outALU, load=instruction[4], out=outDRegister);                                                                     // D Register - load is d2
-    PC(in=outARegister, load=ALUPosNegorALUIsZero, inc=notj1AndNotj2AndNotj3OroperandIsZero, reset=reset, out[0..14]=pc);                           // 15 bits - strip off operand
+    PC(in=outARegister, load=CInstructAndALUPosNegorALUIsZero, inc=notj1AndNotj2AndNotj3OroperandIsZero, reset=reset, out[0..14]=pc);                           // 15 bits - strip off operand
 
     // PC Logic
 
@@ -70,7 +70,7 @@ CHIP CPU {
     And(a=instruction[0], b=ALUIsNeg, out=j1AndALUIsPos);                                                                                // jump because ALU output positive
     Or(a=j1AndALUIsNeg, b=j1AndALUIsPos, out=ALUPosNeg);
     Or(a=ALUPosNeg, b=j2AndALUIsZero, out=ALUPosNegorALUIsZero);                                                                          // COnditions meta => PC load output
-
+    And(a=instruction[15], b=ALUPosNegorALUIsZero, out=CInstructAndALUPosNegorALUIsZero);
 
     // send d3 => writeM
     And(a=instruction[3],b=instruction[15], out=writeM);
