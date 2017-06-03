@@ -51,7 +51,7 @@ CHIP CPU {
     Mux16(a=outARegister, b=inM,  sel=instruction[12], out=outALUMux);                                                      // Mux preceeding ALU, sel is a
     And(a=instruction[4], b=instruction[15], out=instruction4AndInstruction15);
     DRegister(in=outALU, load=instruction4AndInstruction15, out=outDRegister);                                                                     // D Register - load is d2
-    PC(in=outARegister, load=CInstructAndALUPosNegorALUIsZero, inc=notj1AndNotj2AndNotj3OroperandIsZero, reset=reset, out[0..14]=pc);                           // 15 bits - strip off operand
+    PC(in=outARegister, load=doJump, inc=doInc, reset=reset, out[0..14]=pc);                           // 15 bits - strip off operand
 
     // PC Logic
 
@@ -63,16 +63,18 @@ CHIP CPU {
     And(a=notj1, b=notj2, out=notj1AndNotj2);                                                                                            // Not j1 and not j2
     And(a=notj1AndNotj2, b=notj3, out=notj1AndNotj2AndNotj3);                                                                            // Not j1 and not j2 and not j3 => inc
     Not(in=instruction[15], out=operandIsZero);
-    Or(a=notj1AndNotj2AndNotj3, b=operandIsZero, out=notj1AndNotj2AndNotj3OroperandIsZero);
+    Or(a=notj1AndNotj2AndNotj3, b=operandIsZero, out=jumpNotTried);
 
     // Jump
     And(a=instruction[2], b=ALUIsNeg, out=j1AndALUIsNeg);                                                                                // jump because ALU output negative
     And(a=instruction[1], b=ALUIsZero, out=j2AndALUIsZero);                                                                              // jump because ALU output zero
     Not(in=ALUIsNeg, out=ALUIsPos);
-    And(a=instruction[0], b=ALUIsNeg, out=j1AndALUIsPos);                                                                                // jump because ALU output positive
+    And(a=instruction[0], b=ALUIsPos, out=j1AndALUIsPos);                                                                                // jump because ALU output positive
     Or(a=j1AndALUIsNeg, b=j1AndALUIsPos, out=ALUPosNeg);
-    Or(a=ALUPosNeg, b=j2AndALUIsZero, out=ALUPosNegorALUIsZero);                                                                          // COnditions meta => PC load output
-    And(a=instruction[15], b=ALUPosNegorALUIsZero, out=CInstructAndALUPosNegorALUIsZero);
+    Or(a=ALUPosNeg, b=j2AndALUIsZero, out=jCondMet);                                                                          // COnditions meta => PC load output
+    And(a=instruction[15], b=jCondMet, out=doJump);
+    Not(in=doJump, out=didntJump);
+    Or(a=didntJump, b=jumpNotTried, out=doInc);         // Increment if this is true
 
     // send d3 => writeM
     And(a=instruction[3],b=instruction[15], out=writeM);
