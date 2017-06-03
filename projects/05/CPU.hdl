@@ -49,7 +49,8 @@ CHIP CPU {
         nx=instruction[10], f=instruction[7], no=instruction[6], out=outALU, out=outM, zr=ALUIsZero, ng=ALUIsNeg);
 
     Mux16(a=outARegister, b=inM,  sel=instruction[12], out=outALUMux);                                                      // Mux preceeding ALU, sel is a
-    DRegister(in=outALU, load=instruction[4], out=outDRegister);                                                                     // D Register - load is d2
+    And(a=instruction[4], b=instruction[15], out=instruction4AndInstruction15);
+    DRegister(in=outALU, load=instruction4AndInstruction15, out=outDRegister);                                                                     // D Register - load is d2
     PC(in=outARegister, load=CInstructAndALUPosNegorALUIsZero, inc=notj1AndNotj2AndNotj3OroperandIsZero, reset=reset, out[0..14]=pc);                           // 15 bits - strip off operand
 
     // PC Logic
