@@ -68,7 +68,9 @@ CHIP CPU {
     // Jump
     And(a=instruction[2], b=ALUIsNeg, out=j1AndALUIsNeg);                                                                                // jump because ALU output negative
     And(a=instruction[1], b=ALUIsZero, out=j2AndALUIsZero);                                                                              // jump because ALU output zero
-    Not(in=ALUIsNeg, out=ALUIsPos);
+    Not(in=ALUIsNeg, out=NotALUIsPos);
+    Not(in=ALUIsZero, out=NotALUIsZERO);
+    And(a=NotALUIsPos, b=NotALUIsZERO, out=ALUIsPos);
     And(a=instruction[0], b=ALUIsPos, out=j1AndALUIsPos);                                                                                // jump because ALU output positive
     Or(a=j1AndALUIsNeg, b=j1AndALUIsPos, out=ALUPosNeg);
     Or(a=ALUPosNeg, b=j2AndALUIsZero, out=jCondMet);                                                                          // COnditions meta => PC load output
