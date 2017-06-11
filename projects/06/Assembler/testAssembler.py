@@ -49,7 +49,7 @@ class MyTestCase(unittest.TestCase):
             self.assertEqual(testParser.commandType(), res)
             first = False
 
-    def test_commandTypeJumo(self):
+    def test_commandTypeJump(self):
         """ More complicated test, includes jumps"""
         testParser = Parser('/Users/Sean/Desktop/nand2tetris/projects/06/max/MaxL.asm')
         goodRes = ['A', 'C', 'A', 'C', 'A', 'C', 'A', 'C', 'A', 'C', 'A', 'C', 'A', 'C', 'A', 'C']
@@ -60,6 +60,25 @@ class MyTestCase(unittest.TestCase):
             print str(res) + " : " + str(testParser.getLine())
             self.assertEqual(testParser.commandType(), res)
             first = False
+
+    def test_symbol(self):
+        """ return symbol for A commands"""
+        testParser = Parser('/Users/Sean/Desktop/nand2tetris/projects/06/max/MaxL.asm')
+        self.assertEqual(testParser.symbol(), "0")
+        testParser.advance()
+        testParser.advance()
+        testParser.advance()
+        testParser.advance()
+        self.assertEqual(testParser.symbol(), "10")
+
+    def test_symbolNotACommand(self):
+        """ return symbol for A commands"""
+        testParser = Parser('/Users/Sean/Desktop/nand2tetris/projects/06/max/MaxL.asm')
+        self.assertEqual(testParser.symbol(), "0")
+        testParser.advance()
+        testParser.advance()
+        testParser.advance()
+        self.assertEqual(testParser.symbol(), "-1")
 
 
 

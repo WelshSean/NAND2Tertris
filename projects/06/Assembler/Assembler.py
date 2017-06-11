@@ -60,6 +60,16 @@ class Parser(object):
             return "A"
         elif re.match('[ADM]{1,3}?=', currentLine) or re.match('.+;J..', currentLine):
             return "C"
+        #ToDo - L_COMMAND
+
+    def symbol(self):
+        """ Returns the Symbol or Decimal part of an A command @100 or @SYMBOL"""
+        currentLine = self.lines[self.fileIndex]
+        if self.commandType() == "A":
+            return re.search('^@([0-9A-Za-z]+)\w*$', currentLine).group(1)
+        else:
+            print "Error: - called when not A commmand: " + str(currentLine)
+            return "-1"
 
 
 
