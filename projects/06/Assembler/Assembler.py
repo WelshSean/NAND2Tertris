@@ -105,6 +105,15 @@ class Parser(object):
             print "Error: - called when not C commmand: " + str(currentLine)
             return "-1"
 
+    def jump(self):
+        """ returns the jump Mnemonic from dest=comp;jump """
+        currentLine = self.lines[self.fileIndex]
+        if self.commandType() == "C":
+            return re.search('^.+;(J..).*$', currentLine).group(1)
+        else:
+            print "Error: - called when not C commmand: " + str(currentLine)
+            return "-1"
+
 
 
 

@@ -106,6 +106,28 @@ class MyTestCase(unittest.TestCase):
         testParser.advance()
         testParser.advance()
         self.assertEqual(testParser.comp(), 'D' )
+        testParser.advance()
+        testParser.advance()
+        testParser.advance()
+        testParser.advance()
+        self.assertEqual(testParser.comp(), '0')
+
+
+    def test_jump(self):
+        """ Return the jump mnemonic for a C command """
+        testParser = Parser('/Users/Sean/Desktop/nand2tetris/projects/06/max/MaxL.asm')
+        testParser.advance()
+        testParser.advance()
+        testParser.advance()
+        testParser.advance()
+        testParser.advance()
+        self.assertEqual(testParser.jump(), 'JGT')
+        testParser.advance()
+        testParser.advance()
+        testParser.advance()
+        testParser.advance()
+        self.assertEqual(testParser.jump(), 'JMP')
+
 
 
 
