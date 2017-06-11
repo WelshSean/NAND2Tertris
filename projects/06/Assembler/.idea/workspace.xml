@@ -27,8 +27,8 @@
       <file leaf-file-name="Assembler.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Assembler.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="317">
-              <caret line="86" column="0" selection-start-line="86" selection-start-column="0" selection-end-line="86" selection-end-column="0" />
+            <state relative-caret-position="347">
+              <caret line="98" column="51" selection-start-line="98" selection-start-column="51" selection-end-line="98" selection-end-column="51" />
               <folding />
             </state>
           </provider>
@@ -37,8 +37,8 @@
       <file leaf-file-name="testAssembler.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/testAssembler.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="317">
-              <caret line="96" column="49" selection-start-line="96" selection-start-column="49" selection-end-line="96" selection-end-column="49" />
+            <state relative-caret-position="242">
+              <caret line="106" column="28" selection-start-line="106" selection-start-column="28" selection-end-line="106" selection-end-column="28" />
               <folding>
                 <element signature="e#0#15#0" expanded="true" />
               </folding>
@@ -73,8 +73,8 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/Assembler.py" />
         <option value="$PROJECT_DIR$/testAssembler.py" />
+        <option value="$PROJECT_DIR$/Assembler.py" />
       </list>
     </option>
   </component>
@@ -369,38 +369,45 @@
       <option name="project" value="LOCAL" />
       <updated>1497204002867</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Initial version of dest method in Parser done">
+      <created>1497204659165</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1497204659165</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="Nosetests_in_testAssembler - 2017.06.11 at 18h 55m 29s.xml">
+    <history-entry file="Nosetests_in_testAssembler - 2017.06.11 at 19h 30m 18s.xml">
       <configuration name="Nosetests in testAssembler" configurationId="tests" />
     </history-entry>
-    <history-entry file="Nosetests_in_testAssembler - 2017.06.11 at 18h 55m 52s.xml">
+    <history-entry file="Nosetests_in_testAssembler - 2017.06.11 at 19h 31m 10s.xml">
       <configuration name="Nosetests in testAssembler" configurationId="tests" />
     </history-entry>
-    <history-entry file="Nosetests_in_testAssembler - 2017.06.11 at 18h 56m 32s.xml">
+    <history-entry file="Nosetests_in_testAssembler - 2017.06.11 at 19h 31m 42s.xml">
       <configuration name="Nosetests in testAssembler" configurationId="tests" />
     </history-entry>
-    <history-entry file="Nosetests_in_testAssembler - 2017.06.11 at 18h 56m 47s.xml">
+    <history-entry file="Nosetests_in_testAssembler - 2017.06.11 at 21h 03m 55s.xml">
       <configuration name="Nosetests in testAssembler" configurationId="tests" />
     </history-entry>
-    <history-entry file="Nosetests_in_testAssembler - 2017.06.11 at 18h 58m 39s.xml">
+    <history-entry file="Nosetests_in_testAssembler - 2017.06.11 at 21h 04m 10s.xml">
       <configuration name="Nosetests in testAssembler" configurationId="tests" />
     </history-entry>
-    <history-entry file="Nosetests_in_testAssembler - 2017.06.11 at 18h 59m 18s.xml">
+    <history-entry file="Nosetests_in_testAssembler - 2017.06.11 at 21h 05m 11s.xml">
       <configuration name="Nosetests in testAssembler" configurationId="tests" />
     </history-entry>
-    <history-entry file="Nosetests_in_testAssembler - 2017.06.11 at 18h 59m 46s.xml">
+    <history-entry file="Nosetests_in_testAssembler - 2017.06.11 at 21h 06m 23s.xml">
       <configuration name="Nosetests in testAssembler" configurationId="tests" />
     </history-entry>
-    <history-entry file="Nosetests_in_testAssembler - 2017.06.11 at 19h 08m 00s.xml">
+    <history-entry file="Nosetests_in_testAssembler - 2017.06.11 at 21h 08m 40s.xml">
       <configuration name="Nosetests in testAssembler" configurationId="tests" />
     </history-entry>
-    <history-entry file="Nosetests_in_testAssembler - 2017.06.11 at 19h 08m 17s.xml">
+    <history-entry file="Nosetests_in_testAssembler - 2017.06.11 at 21h 09m 53s.xml">
       <configuration name="Nosetests in testAssembler" configurationId="tests" />
     </history-entry>
-    <history-entry file="Nosetests_in_testAssembler - 2017.06.11 at 19h 10m 44s.xml">
+    <history-entry file="Nosetests_in_testAssembler - 2017.06.11 at 21h 10m 25s.xml">
       <configuration name="Nosetests in testAssembler" configurationId="tests" />
     </history-entry>
   </component>
@@ -441,7 +448,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Initial version of commandType method in Parser done" />
     <MESSAGE value="Initial version of symbol method in Parser done" />
-    <option name="LAST_COMMIT_MESSAGE" value="Initial version of symbol method in Parser done" />
+    <MESSAGE value="Initial version of dest method in Parser done" />
+    <option name="LAST_COMMIT_MESSAGE" value="Initial version of dest method in Parser done" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -458,16 +466,16 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Assembler.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="317">
-          <caret line="86" column="0" selection-start-line="86" selection-start-column="0" selection-end-line="86" selection-end-column="0" />
+        <state relative-caret-position="347">
+          <caret line="98" column="51" selection-start-line="98" selection-start-column="51" selection-end-line="98" selection-end-column="51" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/testAssembler.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="317">
-          <caret line="96" column="49" selection-start-line="96" selection-start-column="49" selection-end-line="96" selection-end-column="49" />
+        <state relative-caret-position="242">
+          <caret line="106" column="28" selection-start-line="106" selection-start-column="28" selection-end-line="106" selection-end-column="28" />
           <folding>
             <element signature="e#0#15#0" expanded="true" />
           </folding>

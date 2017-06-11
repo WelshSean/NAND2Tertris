@@ -85,6 +85,25 @@ class Parser(object):
             return "-1"
 
 
+    def comp(self):
+        """ Returns the dest Mnemonic from dest = comp;jump """
+        currentLine = self.lines[self.fileIndex]
+        if self.commandType() == "C":
+            if re.search('=', currentLine):
+                m = re.search('^([ADM]+=){0,1}(.+)(;J..){0,1}$', currentLine)
+                if m:
+                    return m.group(2)
+                else:
+                    print "bleugh"
+            elif re.search(';', currentLine):
+                m = re.search('^([ADM]+=){0,1}(.+);(J..){0,1}$', currentLine)
+                if m:
+                    return m.group(2)
+                else:
+                    print "bleugh"
+        else:
+            print "Error: - called when not C commmand: " + str(currentLine)
+            return "-1"
 
 
 

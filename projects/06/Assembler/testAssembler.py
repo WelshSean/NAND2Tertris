@@ -96,6 +96,17 @@ class MyTestCase(unittest.TestCase):
         testParser.advance()
         self.assertEqual(testParser.dest(), 'None' )
 
+    def test_comp(self):
+        """ Return the comp mnenomic for a C command """
+        testParser = Parser('/Users/Sean/Desktop/nand2tetris/projects/06/max/MaxL.asm')
+        testParser.advance()
+        self.assertEqual(testParser.comp(), 'M' )
+        testParser.advance()
+        testParser.advance()
+        testParser.advance()
+        testParser.advance()
+        self.assertEqual(testParser.comp(), 'D' )
+
 
 
 
