@@ -1,7 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="fb2d13c9-b1db-4f63-be9d-ea50194e96e0" name="Default" comment="" />
+    <list default="true" id="fb2d13c9-b1db-4f63-be9d-ea50194e96e0" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../03/a/PC.out" afterPath="$PROJECT_DIR$/../../03/a/PC.out" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../03/b/RAM4K.out" afterPath="$PROJECT_DIR$/../../03/b/RAM4K.out" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assembler.py" afterPath="$PROJECT_DIR$/Assembler.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/testAssembler.py" afterPath="$PROJECT_DIR$/testAssembler.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../../tools/bin/Hardware Simulator.dat" afterPath="$PROJECT_DIR$/../../../tools/bin/Hardware Simulator.dat" />
+    </list>
     <ignored path="Assembler.iws" />
     <ignored path=".idea/workspace.xml" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -23,8 +30,8 @@
       <file leaf-file-name="Assembler.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Assembler.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="420">
-              <caret line="28" column="49" selection-start-line="28" selection-start-column="49" selection-end-line="28" selection-end-column="49" />
+            <state relative-caret-position="407">
+              <caret line="60" column="84" selection-start-line="60" selection-start-column="84" selection-end-line="60" selection-end-column="84" />
               <folding />
             </state>
           </provider>
@@ -33,8 +40,8 @@
       <file leaf-file-name="testAssembler.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/testAssembler.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="315">
-              <caret line="21" column="0" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
+            <state relative-caret-position="377">
+              <caret line="59" column="27" selection-start-line="59" selection-start-column="27" selection-end-line="59" selection-end-column="27" />
               <folding>
                 <element signature="e#0#15#0" expanded="true" />
               </folding>
@@ -45,8 +52,8 @@
       <file leaf-file-name="Add.asm" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/../add/Add.asm">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="105">
-              <caret line="7" column="0" selection-start-line="7" selection-start-column="0" selection-end-line="8" selection-end-column="3" />
+            <state relative-caret-position="120">
+              <caret line="8" column="0" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="3" />
               <folding />
             </state>
           </provider>
@@ -62,6 +69,10 @@
       </list>
     </option>
   </component>
+  <component name="Git.Settings">
+    <option name="UPDATE_TYPE" value="MERGE" />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../../.." />
+  </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
@@ -75,7 +86,7 @@
     <option name="width" value="1440" />
     <option name="height" value="830" />
   </component>
-  <component name="ProjectLevelVcsManager" settingsEditedManually="false">
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <OptionsSetting value="true" id="Add" />
     <OptionsSetting value="true" id="Remove" />
     <OptionsSetting value="true" id="Checkout" />
@@ -126,7 +137,7 @@
   </component>
   <component name="PropertiesComponent">
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../add/Add.asm" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../.." />
     <property name="settings.editor.splitter.proportion" value="0.2" />
   </component>
   <component name="RunManager" selected="Python tests.Nosetests in testAssembler">
@@ -170,6 +181,23 @@
       <option name="USE_PATTERN" value="false" />
       <option name="PARAMS" value="" />
       <option name="USE_PARAM" value="false" />
+      <method />
+    </configuration>
+    <configuration default="false" name="testAssembler" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="Assembler" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/testAssembler.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
       <method />
     </configuration>
     <configuration default="true" type="PythonConfigurationType" factoryName="Python">
@@ -306,14 +334,16 @@
       <option name="USE_KEYWORD" value="false" />
       <method />
     </configuration>
-    <list size="2">
+    <list size="3">
       <item index="0" class="java.lang.String" itemvalue="Python tests.Nosetests in testAssembler" />
       <item index="1" class="java.lang.String" itemvalue="Python tests.Nosetest MyTestCase.test_init" />
+      <item index="2" class="java.lang.String" itemvalue="Python.testAssembler" />
     </list>
     <recent_temporary>
-      <list size="2">
+      <list size="3">
         <item index="0" class="java.lang.String" itemvalue="Python tests.Nosetests in testAssembler" />
-        <item index="1" class="java.lang.String" itemvalue="Python tests.Nosetest MyTestCase.test_init" />
+        <item index="1" class="java.lang.String" itemvalue="Python.testAssembler" />
+        <item index="2" class="java.lang.String" itemvalue="Python tests.Nosetest MyTestCase.test_init" />
       </list>
     </recent_temporary>
   </component>
@@ -331,47 +361,47 @@
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="Nosetest_MyTestCase_test_init - 2017.06.06 at 22h 20m 46s.xml">
-      <configuration name="Nosetest MyTestCase.test_init" configurationId="tests" />
-    </history-entry>
-    <history-entry file="Nosetest_MyTestCase_test_init - 2017.06.06 at 22h 21m 24s.xml">
-      <configuration name="Nosetest MyTestCase.test_init" configurationId="tests" />
-    </history-entry>
-    <history-entry file="Nosetest_MyTestCase_test_init - 2017.06.06 at 22h 27m 44s.xml">
-      <configuration name="Nosetest MyTestCase.test_init" configurationId="tests" />
-    </history-entry>
-    <history-entry file="Nosetest_MyTestCase_test_init - 2017.06.06 at 22h 28m 03s.xml">
-      <configuration name="Nosetest MyTestCase.test_init" configurationId="tests" />
-    </history-entry>
-    <history-entry file="Nosetest_MyTestCase_test_init - 2017.06.06 at 22h 28m 21s.xml">
-      <configuration name="Nosetest MyTestCase.test_init" configurationId="tests" />
-    </history-entry>
-    <history-entry file="Nosetests_in_testAssembler - 2017.06.06 at 22h 28m 48s.xml">
+    <history-entry file="Nosetests_in_testAssembler - 2017.06.11 at 18h 14m 53s.xml">
       <configuration name="Nosetests in testAssembler" configurationId="tests" />
     </history-entry>
-    <history-entry file="Nosetests_in_testAssembler - 2017.06.06 at 22h 29m 37s.xml">
+    <history-entry file="Nosetests_in_testAssembler - 2017.06.11 at 18h 15m 38s.xml">
       <configuration name="Nosetests in testAssembler" configurationId="tests" />
     </history-entry>
-    <history-entry file="Nosetests_in_testAssembler - 2017.06.06 at 22h 30m 22s.xml">
+    <history-entry file="Nosetests_in_testAssembler - 2017.06.11 at 18h 19m 31s.xml">
       <configuration name="Nosetests in testAssembler" configurationId="tests" />
     </history-entry>
-    <history-entry file="Nosetests_in_testAssembler - 2017.06.06 at 22h 34m 11s.xml">
+    <history-entry file="Nosetests_in_testAssembler - 2017.06.11 at 18h 21m 48s.xml">
       <configuration name="Nosetests in testAssembler" configurationId="tests" />
     </history-entry>
-    <history-entry file="Nosetests_in_testAssembler - 2017.06.06 at 22h 35m 45s.xml">
+    <history-entry file="Nosetests_in_testAssembler - 2017.06.11 at 18h 23m 09s.xml">
+      <configuration name="Nosetests in testAssembler" configurationId="tests" />
+    </history-entry>
+    <history-entry file="Nosetests_in_testAssembler - 2017.06.11 at 18h 24m 33s.xml">
+      <configuration name="Nosetests in testAssembler" configurationId="tests" />
+    </history-entry>
+    <history-entry file="Nosetests_in_testAssembler - 2017.06.11 at 18h 25m 48s.xml">
+      <configuration name="Nosetests in testAssembler" configurationId="tests" />
+    </history-entry>
+    <history-entry file="Nosetests_in_testAssembler - 2017.06.11 at 18h 29m 13s.xml">
+      <configuration name="Nosetests in testAssembler" configurationId="tests" />
+    </history-entry>
+    <history-entry file="Nosetests_in_testAssembler - 2017.06.11 at 18h 36m 26s.xml">
+      <configuration name="Nosetests in testAssembler" configurationId="tests" />
+    </history-entry>
+    <history-entry file="Nosetests_in_testAssembler - 2017.06.11 at 18h 36m 51s.xml">
       <configuration name="Nosetests in testAssembler" configurationId="tests" />
     </history-entry>
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1440" height="830" extended-state="6" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3298292" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3298292" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
@@ -403,16 +433,16 @@
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/../add/Add.asm">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="7" column="0" selection-start-line="7" selection-start-column="0" selection-end-line="8" selection-end-column="3" />
+        <state relative-caret-position="120">
+          <caret line="8" column="0" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="3" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/testAssembler.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="315">
-          <caret line="21" column="0" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
+        <state relative-caret-position="377">
+          <caret line="59" column="27" selection-start-line="59" selection-start-column="27" selection-end-line="59" selection-end-column="27" />
           <folding>
             <element signature="e#0#15#0" expanded="true" />
           </folding>
@@ -421,8 +451,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Assembler.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="420">
-          <caret line="28" column="49" selection-start-line="28" selection-start-column="49" selection-end-line="28" selection-end-column="49" />
+        <state relative-caret-position="407">
+          <caret line="60" column="84" selection-start-line="60" selection-start-column="84" selection-end-line="60" selection-end-column="84" />
           <folding />
         </state>
       </provider>
