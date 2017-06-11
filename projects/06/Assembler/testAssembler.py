@@ -80,6 +80,22 @@ class MyTestCase(unittest.TestCase):
         testParser.advance()
         self.assertEqual(testParser.symbol(), "-1")
 
+    def test_dest(self):
+        """ Return the dest mnemonic for a C command"""
+        testParser = Parser('/Users/Sean/Desktop/nand2tetris/projects/06/max/MaxL.asm')
+        testParser.advance()
+        self.assertEqual(testParser.dest(), 'D' )
+
+    def test_destNoDest(self):
+        """ Return the dest mnemonic for a C command - this case has no dest mnemonic - should return None"""
+        testParser = Parser('/Users/Sean/Desktop/nand2tetris/projects/06/max/MaxL.asm')
+        testParser.advance()
+        testParser.advance()
+        testParser.advance()
+        testParser.advance()
+        testParser.advance()
+        self.assertEqual(testParser.dest(), 'None' )
+
 
 
 

@@ -71,6 +71,21 @@ class Parser(object):
             print "Error: - called when not A commmand: " + str(currentLine)
             return "-1"
 
+    def dest(self):
+        """ Returns the dest Mnemonic from dest = comp;jump """
+        currentLine = self.lines[self.fileIndex]
+        if self.commandType() == "C":
+            m = re.search('^([ADM]{1,3})=.+$', currentLine)
+            if m:
+                return m.group(1)
+            else:
+                return "None"
+        else:
+            print "Error: - called when not C commmand: " + str(currentLine)
+            return "-1"
+
+
+
 
 
 
