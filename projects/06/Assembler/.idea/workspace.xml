@@ -2,9 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="fb2d13c9-b1db-4f63-be9d-ea50194e96e0" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/testCode.py" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/testAssembler.py" afterPath="$PROJECT_DIR$/testParser.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Assembler.py" afterPath="$PROJECT_DIR$/Assembler.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/testAssembler.py" afterPath="$PROJECT_DIR$/testAssembler.py" />
     </list>
     <ignored path="Assembler.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -27,18 +28,32 @@
       <file leaf-file-name="Assembler.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Assembler.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="392">
-              <caret line="111" column="66" selection-start-line="111" selection-start-column="66" selection-end-line="111" selection-end-column="66" />
-              <folding />
+            <state relative-caret-position="-43">
+              <caret line="158" column="43" selection-start-line="158" selection-start-column="43" selection-end-line="158" selection-end-column="43" />
+              <folding>
+                <element signature="e#36#4099#0" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="testAssembler.py" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/testAssembler.py">
+      <file leaf-file-name="testParser.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/testParser.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="1680">
               <caret line="112" column="46" selection-start-line="112" selection-start-column="46" selection-end-line="112" selection-end-column="46" />
+              <folding>
+                <element signature="e#0#15#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="testCode.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/testCode.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="2580">
+              <caret line="172" column="63" selection-start-line="172" selection-start-column="63" selection-end-line="172" selection-end-column="63" />
               <folding>
                 <element signature="e#0#15#0" expanded="true" />
               </folding>
@@ -73,8 +88,9 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/Assembler.py" />
         <option value="$PROJECT_DIR$/testAssembler.py" />
+        <option value="$PROJECT_DIR$/Assembler.py" />
+        <option value="$PROJECT_DIR$/testCode.py" />
       </list>
     </option>
   </component>
@@ -137,8 +153,8 @@
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../.." />
     <property name="settings.editor.splitter.proportion" value="0.2" />
   </component>
-  <component name="RunManager" selected="Python tests.Nosetests in testAssembler">
-    <configuration default="false" name="Nosetests in testAssembler" type="tests" factoryName="Nosetests" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="Python tests.Nosetests in testCode">
+    <configuration default="false" name="Nosetests in testParser" type="tests" factoryName="Nosetests" temporary="true" nameIsGenerated="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs />
@@ -148,7 +164,7 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <module name="Assembler" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/testAssembler.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/testParser.py" />
       <option name="CLASS_NAME" value="" />
       <option name="METHOD_NAME" value="" />
       <option name="FOLDER_NAME" value="" />
@@ -169,7 +185,7 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <module name="Assembler" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/testAssembler.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/testParser.py" />
       <option name="CLASS_NAME" value="MyTestCase" />
       <option name="METHOD_NAME" value="test_init" />
       <option name="FOLDER_NAME" value="" />
@@ -192,9 +208,30 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <module name="Assembler" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/testAssembler.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/testParser.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
+      <method />
+    </configuration>
+    <configuration default="false" name="Nosetests in testCode" type="tests" factoryName="Nosetests" temporary="true" nameIsGenerated="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="Assembler" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/testCode.py" />
+      <option name="CLASS_NAME" value="" />
+      <option name="METHOD_NAME" value="" />
+      <option name="FOLDER_NAME" value="" />
+      <option name="TEST_TYPE" value="TEST_SCRIPT" />
+      <option name="PATTERN" value="" />
+      <option name="USE_PATTERN" value="false" />
+      <option name="PARAMS" value="" />
+      <option name="USE_PARAM" value="false" />
       <method />
     </configuration>
     <configuration default="true" type="PythonConfigurationType" factoryName="Python">
@@ -331,16 +368,18 @@
       <option name="USE_KEYWORD" value="false" />
       <method />
     </configuration>
-    <list size="3">
-      <item index="0" class="java.lang.String" itemvalue="Python tests.Nosetests in testAssembler" />
+    <list size="4">
+      <item index="0" class="java.lang.String" itemvalue="Python tests.Nosetests in testParser" />
       <item index="1" class="java.lang.String" itemvalue="Python tests.Nosetest MyTestCase.test_init" />
       <item index="2" class="java.lang.String" itemvalue="Python.testAssembler" />
+      <item index="3" class="java.lang.String" itemvalue="Python tests.Nosetests in testCode" />
     </list>
     <recent_temporary>
-      <list size="3">
-        <item index="0" class="java.lang.String" itemvalue="Python tests.Nosetests in testAssembler" />
-        <item index="1" class="java.lang.String" itemvalue="Python.testAssembler" />
-        <item index="2" class="java.lang.String" itemvalue="Python tests.Nosetest MyTestCase.test_init" />
+      <list size="4">
+        <item index="0" class="java.lang.String" itemvalue="Python tests.Nosetests in testCode" />
+        <item index="1" class="java.lang.String" itemvalue="Python tests.Nosetest MyTestCase.test_init" />
+        <item index="2" class="java.lang.String" itemvalue="Python tests.Nosetests in testParser" />
+        <item index="3" class="java.lang.String" itemvalue="Python.testAssembler" />
       </list>
     </recent_temporary>
   </component>
@@ -383,39 +422,46 @@
       <option name="project" value="LOCAL" />
       <updated>1497211867672</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="FIrst version of parser now passing my tests">
+      <created>1497212333422</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1497212333422</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="Nosetests_in_testAssembler - 2017.06.11 at 21h 04m 10s.xml">
-      <configuration name="Nosetests in testAssembler" configurationId="tests" />
+    <history-entry file="Nosetests_in_testCode - 2017.06.12 at 22h 12m 49s.xml">
+      <configuration name="Nosetests in testCode" configurationId="tests" />
     </history-entry>
-    <history-entry file="Nosetests_in_testAssembler - 2017.06.11 at 21h 05m 11s.xml">
-      <configuration name="Nosetests in testAssembler" configurationId="tests" />
+    <history-entry file="Nosetests_in_testCode - 2017.06.12 at 22h 13m 21s.xml">
+      <configuration name="Nosetests in testCode" configurationId="tests" />
     </history-entry>
-    <history-entry file="Nosetests_in_testAssembler - 2017.06.11 at 21h 06m 23s.xml">
-      <configuration name="Nosetests in testAssembler" configurationId="tests" />
+    <history-entry file="Nosetests_in_testCode - 2017.06.12 at 22h 14m 18s.xml">
+      <configuration name="Nosetests in testCode" configurationId="tests" />
     </history-entry>
-    <history-entry file="Nosetests_in_testAssembler - 2017.06.11 at 21h 08m 40s.xml">
-      <configuration name="Nosetests in testAssembler" configurationId="tests" />
+    <history-entry file="Nosetests_in_testCode - 2017.06.12 at 22h 15m 26s.xml">
+      <configuration name="Nosetests in testCode" configurationId="tests" />
     </history-entry>
-    <history-entry file="Nosetests_in_testAssembler - 2017.06.11 at 21h 09m 53s.xml">
-      <configuration name="Nosetests in testAssembler" configurationId="tests" />
+    <history-entry file="Nosetests_in_testCode - 2017.06.12 at 22h 16m 57s.xml">
+      <configuration name="Nosetests in testCode" configurationId="tests" />
     </history-entry>
-    <history-entry file="Nosetests_in_testAssembler - 2017.06.11 at 21h 10m 25s.xml">
-      <configuration name="Nosetests in testAssembler" configurationId="tests" />
+    <history-entry file="Nosetests_in_testCode - 2017.06.12 at 22h 17m 17s.xml">
+      <configuration name="Nosetests in testCode" configurationId="tests" />
     </history-entry>
-    <history-entry file="Nosetests_in_testAssembler - 2017.06.11 at 21h 15m 32s.xml">
-      <configuration name="Nosetests in testAssembler" configurationId="tests" />
+    <history-entry file="Nosetests_in_testCode - 2017.06.12 at 22h 20m 30s.xml">
+      <configuration name="Nosetests in testCode" configurationId="tests" />
     </history-entry>
-    <history-entry file="Nosetests_in_testAssembler - 2017.06.11 at 21h 16m 48s.xml">
-      <configuration name="Nosetests in testAssembler" configurationId="tests" />
+    <history-entry file="Nosetests_in_testCode - 2017.06.12 at 22h 21m 43s.xml">
+      <configuration name="Nosetests in testCode" configurationId="tests" />
     </history-entry>
-    <history-entry file="Nosetests_in_testAssembler - 2017.06.11 at 21h 17m 32s.xml">
-      <configuration name="Nosetests in testAssembler" configurationId="tests" />
+    <history-entry file="Nosetests_in_testCode - 2017.06.12 at 22h 23m 36s.xml">
+      <configuration name="Nosetests in testCode" configurationId="tests" />
     </history-entry>
-    <history-entry file="Nosetests_in_testAssembler - 2017.06.11 at 21h 18m 12s.xml">
-      <configuration name="Nosetests in testAssembler" configurationId="tests" />
+    <history-entry file="Nosetests_in_testCode - 2017.06.12 at 22h 25m 34s.xml">
+      <configuration name="Nosetests in testCode" configurationId="tests" />
     </history-entry>
   </component>
   <component name="ToolWindowManager">
@@ -457,7 +503,8 @@
     <MESSAGE value="Initial version of symbol method in Parser done" />
     <MESSAGE value="Initial version of dest method in Parser done" />
     <MESSAGE value="Initial version of comp method in Parser done" />
-    <option name="LAST_COMMIT_MESSAGE" value="Initial version of comp method in Parser done" />
+    <MESSAGE value="FIrst version of parser now passing my tests" />
+    <option name="LAST_COMMIT_MESSAGE" value="FIrst version of parser now passing my tests" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -472,18 +519,38 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Assembler.py">
+    <entry file="file://$PROJECT_DIR$/testParser">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="392">
-          <caret line="111" column="66" selection-start-line="111" selection-start-column="66" selection-end-line="111" selection-end-column="66" />
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/testAssembler.py">
+    <entry file="file://$PROJECT_DIR$/testParser.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1680">
           <caret line="112" column="46" selection-start-line="112" selection-start-column="46" selection-end-line="112" selection-end-column="46" />
+          <folding>
+            <element signature="e#0#15#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Assembler.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-43">
+          <caret line="158" column="43" selection-start-line="158" selection-start-column="43" selection-end-line="158" selection-end-column="43" />
+          <folding>
+            <element signature="e#36#4099#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/testCode.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2580">
+          <caret line="172" column="63" selection-start-line="172" selection-start-column="63" selection-end-line="172" selection-end-column="63" />
           <folding>
             <element signature="e#0#15#0" expanded="true" />
           </folding>
