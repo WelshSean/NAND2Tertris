@@ -1,4 +1,6 @@
 import re
+import sys
+
 class Parser(object):
     """
     Parser - this class is tasked with breaking each assembly command into field and Symbols
@@ -17,7 +19,7 @@ class Parser(object):
         with open(fileName) as f:
             self.lines = f.read().splitlines()
         self.lines = self.removeCommentsAndWhitespace(self.lines)
-        self.outputFile = open(stem + ".hack", 'w')
+
 
     @staticmethod
     def removeCommentsAndWhitespace(fileList):
@@ -109,11 +111,14 @@ class Parser(object):
         """ returns the jump Mnemonic from dest=comp;jump """
         currentLine = self.lines[self.fileIndex]
         if self.commandType() == "C":
-            return re.search('^.+;(J..).*$', currentLine).group(1)
+            find_jump = re.search('^.+;(J..).*$', currentLine)
+            if find_jump:
+                return find_jump.group(1)
+            else:
+                return "NOJUMP"
         else:
             print "Error: - called when not C commmand: " + str(currentLine)
             return "-1"
-
 
 class Code(object):
     """
@@ -130,7 +135,8 @@ class Code(object):
                          'JLT' : '100',
                          'JNE' : '101',
                          'JLE' : '110',
-                         'JMP' : '111'}
+                         'JMP' : '111',
+                         'NOJUMP': '000'}
 
         self.destLookup={ 'M' : '001',
                           'D' : '010',
@@ -181,6 +187,52 @@ class Code(object):
     def comp(self, mnemonic):
         """ Lookup binary codes for comp mnemonics"""
         return self.compLookup[mnemonic]
+
+def convA2Bin(decNumber):
+    binNumber = "{0:b}".format(decNumber)
+    binNumber = (15 - len(str(binNumber)))*"0" + binNumber
+    return binNumber
+
+
+def assembler(fileName):
+    """
+    main assembler program that uses the classes that do most of the work
+    :param fileName: name of the .asm file to be compiled
+    :return: Return code
+    """
+    output=[]
+    stem = fileName.split(".")[0]  # Making assumption that file is stem.asm
+
+    outputFile = open(stem + ".hack", 'w')
+
+    codeParser=Parser(fileName)
+    codeLookup=Code()
+
+    while True:
+        line=codeParser.getLine()
+        print "ASSEMBLER: " + str(line)
+        type = codeParser.commandType()
+        if type == "A":
+            assembledLine = "0" + convA2Bin(int(codeParser.symbol()))
+        elif type == "C":
+            assembledLine = "111" + codeLookup.comp(codeParser.comp()) + codeLookup.dest(codeParser.dest()) + codeLookup.jump(codeParser.jump())
+
+        print "LINE: " + assembledLine
+        outputFile.write(assembledLine + "\n")
+        output.append(assembledLine)
+
+        if codeParser.hasMoreCommands():
+            codeParser.advance()
+        else:
+            break
+    outputFile.close()
+
+    return output
+
+
+if __name__ == "__main__":
+    assembler(sys.argv[0])
+
 
 
 

@@ -117,6 +117,7 @@ class MyTestCase(unittest.TestCase):
         """ Return the jump mnemonic for a C command """
         testParser = Parser('/Users/Sean/Desktop/nand2tetris/projects/06/max/MaxL.asm')
         testParser.advance()
+        self.assertEqual(testParser.jump(), 'NOJUMP')
         testParser.advance()
         testParser.advance()
         testParser.advance()

@@ -32,6 +32,10 @@ class MyTestCase(unittest.TestCase):
         self.testingCode = Code()
         self.assertEqual(self.testingCode.jump("JMP"), "111")
 
+    def test_jump_NOJUMP(self):
+        self.testingCode = Code()
+        self.assertEqual(self.testingCode.jump("NOJUMP"), "000")
+
     def test_dest_M(self):
         self.testingCode = Code()
         self.assertEqual(self.testingCode.dest("M"), "001")
