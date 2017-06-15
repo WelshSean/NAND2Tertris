@@ -1,6 +1,8 @@
 import re
 import sys
 
+
+
 class Parser(object):
     """
     Parser - this class is tasked with breaking each assembly command into field and Symbols
@@ -57,18 +59,24 @@ class Parser(object):
             L_COMMAND: (xxx) where xxx is a symbol
         """
         currentLine = self.lines[self.fileIndex]
-
-        if re.match(' *@', currentLine):
+        print "CURRENTLINE:" + str(currentLine)
+        if re.match('^\s*@[A-Za-z0-9_]+\s*$', currentLine):
             return "A"
-        elif re.match('[ADM]{1,3}?=', currentLine) or re.match('.+;J..', currentLine):
+        elif re.match('^\s*[ADM]{1,3}?=', currentLine) or re.match('.+;J..', currentLine):
             return "C"
-        #ToDo - L_COMMAND
+        elif re.match('^\s*\([A-Za-z0-9_]+\)\s*$', currentLine):
+            return "L"
+        else:
+            return"ERR_NOMATCH"
 
     def symbol(self):
         """ Returns the Symbol or Decimal part of an A command @100 or @SYMBOL"""
         currentLine = self.lines[self.fileIndex]
         if self.commandType() == "A":
-            return re.search('^@([0-9A-Za-z]+)\w*$', currentLine).group(1)
+            return re.search('^\s*@([0-9A-Za-z_]+)\s*.*$', currentLine).group(1)
+        elif self.commandType() == "L":
+            #return re.search('^\s*\(([0-9A-Za-z_])\)\s*.*$', currentLine).group(1)
+            return re.search('\((.+)\)', currentLine).group(1)
         else:
             print "Error: - called when not A commmand: " + str(currentLine)
             return "-1"
@@ -188,6 +196,26 @@ class Code(object):
         """ Lookup binary codes for comp mnemonics"""
         return self.compLookup[mnemonic]
 
+class SymbolTable(object):
+    """ This class models the symbol table"""
+
+    def __init__(self):
+        self.table = {}
+
+    def addEntry(self, key, address):
+        self.table[key] = address
+
+    def contains(self, key):
+        return key in self.table.keys()
+
+    def GetAddress(self, key):
+        if key in self.table.keys():
+            return self.table[key]
+        else:
+            return -1
+
+
+
 def convA2Bin(decNumber):
     binNumber = "{0:b}".format(decNumber)
     binNumber = (15 - len(str(binNumber)))*"0" + binNumber
@@ -207,6 +235,22 @@ def assembler(fileName):
 
     codeParser=Parser(fileName)
     codeLookup=Code()
+    symboltable = SymbolTable()
+
+    # Pass1
+
+    # ParserPassOne = Parser(fileName)
+    # index = 0
+    # while True:
+    #     line=ParserPassOne.getLine()
+    #     if ParserPassOne.commandType() = "L":
+    #         symboltable.addEntry()
+    #
+    #
+    #     if ParserPassOne.hasMoreCommands():
+    #         ParserPassOne.advance()
+    #     else:
+    #         break
 
     while True:
         line=codeParser.getLine()

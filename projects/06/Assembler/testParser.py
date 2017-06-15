@@ -61,6 +61,18 @@ class MyTestCase(unittest.TestCase):
             self.assertEqual(testParser.commandType(), res)
             first = False
 
+    def test_commandTypeLabel(self):
+        """ More complicated test, includes Labels"""
+        testParser = Parser('/Users/Sean/Desktop/nand2tetris/projects/06/max/Max.asm')
+        goodRes = ['A', 'C', 'A', 'C', 'A', 'C', 'A', 'C', 'A', 'C', 'L', 'A', 'C', 'L', 'A', 'C', 'L', 'A', 'C']
+        first=True
+        for res in goodRes:
+            if not first:
+                testParser.advance()
+            print str(res) + " : " + str(testParser.getLine())
+            self.assertEqual(testParser.commandType(), res)
+            first = False
+
     def test_symbol(self):
         """ return symbol for A commands"""
         testParser = Parser('/Users/Sean/Desktop/nand2tetris/projects/06/max/MaxL.asm')
@@ -79,6 +91,21 @@ class MyTestCase(unittest.TestCase):
         testParser.advance()
         testParser.advance()
         self.assertEqual(testParser.symbol(), "-1")
+
+    def test_symbolL(self):
+        """ return symbol for L commands"""
+        testParser = Parser('/Users/Sean/Desktop/nand2tetris/projects/06/max/Max.asm')
+        testParser.advance()
+        testParser.advance()
+        testParser.advance()
+        testParser.advance()
+        testParser.advance()
+        testParser.advance()
+        testParser.advance()
+        testParser.advance()
+        testParser.advance()
+        testParser.advance()
+        self.assertEqual(testParser.symbol(), "OUTPUT_FIRST")
 
     def test_dest(self):
         """ Return the dest mnemonic for a C command"""
