@@ -3,6 +3,10 @@ from Assembler import Code
 
 class MyTestCase(unittest.TestCase):
 
+    def test_jump_None(self):
+        self.testingCode = Code()
+        self.assertEqual(self.testingCode.jump(None), "000")
+
     def test_jump_JGT(self):
         self.testingCode = Code()
         self.assertEqual(self.testingCode.jump("JGT"), "001")
@@ -39,6 +43,10 @@ class MyTestCase(unittest.TestCase):
     def test_dest_M(self):
         self.testingCode = Code()
         self.assertEqual(self.testingCode.dest("M"), "001")
+
+    def test_dest_None(self):
+        self.testingCode = Code()
+        self.assertEqual(self.testingCode.dest(None), "000")
 
     def test_dest_D(self):
         self.testingCode = Code()
@@ -175,6 +183,7 @@ class MyTestCase(unittest.TestCase):
     def test_comp_DorM(self):
         self.testingCode = Code()
         self.assertEqual(self.testingCode.comp("D|M"), "1010101")
+
 
 
 

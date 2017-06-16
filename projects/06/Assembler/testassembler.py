@@ -19,15 +19,15 @@ class MyTestCase(unittest.TestCase):
             counter += 1
 
 
-def test_assembly_Max(self):
-    testOutput = assembler('/Users/Sean/Desktop/nand2tetris/projects/06/Assembler/max/Max.asm')
-    self.assertEqual(len(testOutput), 6)
-    counter = 0
-    with open("/Users/Sean/Desktop/nand2tetris/projects/06/Assembler/add/Max.testhack", mode='r') as f:
-        lines = f.read().splitlines()
-    for line in lines:
-        self.assertEqual(testOutput[counter], line)
-        counter += 1
+    def test_assembly_Max(self):
+        testOutput = assembler('/Users/Sean/Desktop/nand2tetris/projects/06/Assembler/max/Max.asm')
+        self.assertEqual(len(testOutput), 6)
+        counter = 0
+        with open("/Users/Sean/Desktop/nand2tetris/projects/06/Assembler/add/Max.testhack", mode='r') as f:
+            lines = f.read().splitlines()
+        for line in lines:
+            self.assertEqual(testOutput[counter], line)
+            counter += 1
 
 if __name__ == '__main__':
     unittest.main()

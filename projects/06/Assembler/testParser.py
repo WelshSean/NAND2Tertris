@@ -156,6 +156,47 @@ class MyTestCase(unittest.TestCase):
         testParser.advance()
         self.assertEqual(testParser.jump(), 'JMP')
 
+    def test_destComments(self):
+        """ Return the dest mnemonic for a C command - this case has no dest mnemonic - should return None"""
+        testParser = Parser('/Users/Sean/Desktop/nand2tetris/projects/06/max/Max.asm')
+        testParser.advance()
+        self.assertEqual(testParser.dest(), 'D' )
+
+    def test_compComments(self):
+        """ Return the comp mnenomic for a C command """
+        testParser = Parser('/Users/Sean/Desktop/nand2tetris/projects/06/max/Max.asm')
+        testParser.advance()
+        self.assertEqual(testParser.comp(), 'M' )
+        testParser.advance()
+        testParser.advance()
+        self.assertEqual(testParser.comp(), 'D-M' )
+        testParser.advance()
+        testParser.advance()
+        self.assertEqual(testParser.comp(), 'D' )
+        testParser.advance()
+        testParser.advance()
+        testParser.advance()
+        testParser.advance()
+        self.assertEqual(testParser.comp(), '0')
+
+    def test_jumpComments(self):
+        """ Return the jump mnemonic for a C command """
+        testParser = Parser('/Users/Sean/Desktop/nand2tetris/projects/06/max/Max.asm')
+        testParser.advance()
+        self.assertEqual(testParser.jump(), 'NOJUMP')
+        testParser.advance()
+        testParser.advance()
+        testParser.advance()
+        testParser.advance()
+        self.assertEqual(testParser.jump(), 'JGT')
+        testParser.advance()
+        testParser.advance()
+        testParser.advance()
+        testParser.advance()
+        self.assertEqual(testParser.jump(), 'JMP')
+
+
+
 
 
 

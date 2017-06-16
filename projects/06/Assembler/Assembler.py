@@ -60,7 +60,7 @@ class Parser(object):
         """
         currentLine = self.lines[self.fileIndex]
         print "CURRENTLINE:" + str(currentLine)
-        if re.match('^\s*@[A-Za-z0-9_]+\s*$', currentLine):
+        if re.match('^\s*@[A-Za-z0-9_]+\s*.*$', currentLine):
             return "A"
         elif re.match('^\s*[ADM]{1,3}?=', currentLine) or re.match('.+;J..', currentLine):
             return "C"
@@ -85,7 +85,7 @@ class Parser(object):
         """ Returns the dest Mnemonic from dest = comp;jump """
         currentLine = self.lines[self.fileIndex]
         if self.commandType() == "C":
-            m = re.search('^([ADM]{1,3})=.+$', currentLine)
+            m = re.search('([ADM]{1,3})=.+', currentLine)
             if m:
                 return m.group(1)
             else:
@@ -96,17 +96,17 @@ class Parser(object):
 
 
     def comp(self):
-        """ Returns the dest Mnemonic from dest = comp;jump """
+        """ Returns the comp Mnemonic from dest = comp;jump """
         currentLine = self.lines[self.fileIndex]
         if self.commandType() == "C":
             if re.search('=', currentLine):
-                m = re.search('^([ADM]+=){0,1}(.+)(;J..){0,1}$', currentLine)
+                m = re.search('([ADM]+=){0,1}([ADM0\-1\+|&]+)(;J..){0,1}', currentLine)
                 if m:
                     return m.group(2)
                 else:
                     print "bleugh"
             elif re.search(';', currentLine):
-                m = re.search('^([ADM]+=){0,1}(.+);(J..){0,1}$', currentLine)
+                m = re.search('([ADM]+=){0,1}([ADM0\-1\+|&]+)(;J..){0,1}', currentLine)
                 if m:
                     return m.group(2)
                 else:
@@ -186,11 +186,17 @@ class Code(object):
 
     def jump(self, mnemonic):
         """ Lookup binary codes for jump mnemonics"""
-        return self.jumpLookup[mnemonic]
+        if not (mnemonic is None):
+            return self.jumpLookup[mnemonic]
+        else:
+            return "000"
 
     def dest(self, mnemonic):
         """ Lookup binary codes for dest mnemonics """
-        return self.destLookup[mnemonic]
+        if not (mnemonic is None) and mnemonic != "None":
+            return self.destLookup[mnemonic]
+        else:
+            return "000"
 
     def comp(self, mnemonic):
         """ Lookup binary codes for comp mnemonics"""
@@ -237,27 +243,47 @@ def assembler(fileName):
     codeLookup=Code()
     symboltable = SymbolTable()
 
+    # Init symbol table
+    symboltable.addEntry("SP", 0)
+    symboltable.addEntry("LCL", 1)
+    symboltable.addEntry("ARG", 2)
+    symboltable.addEntry("THIS", 3)
+    symboltable.addEntry("THAT", 4)
+    for index in range(0,16):
+        symboltable.addEntry("R" + str(index), index)
+    symboltable.addEntry("SCREEN", 16384)
+    symboltable.addEntry("KBD", 24576)
+
+    print symboltable.table
+
     # Pass1
 
-    # ParserPassOne = Parser(fileName)
-    # index = 0
-    # while True:
-    #     line=ParserPassOne.getLine()
-    #     if ParserPassOne.commandType() = "L":
-    #         symboltable.addEntry()
-    #
-    #
-    #     if ParserPassOne.hasMoreCommands():
-    #         ParserPassOne.advance()
-    #     else:
-    #         break
+    ParserPassOne = Parser(fileName)
+    index = 0
+    while True:
+        line=ParserPassOne.getLine()
+        if ParserPassOne.commandType() == "L":
+            symboltable.addEntry(ParserPassOne.symbol(), index)
+        index +=1
+
+        if ParserPassOne.hasMoreCommands():
+            ParserPassOne.advance()
+        else:
+            break
+
+    # Pass2
 
     while True:
         line=codeParser.getLine()
         print "ASSEMBLER: " + str(line)
         type = codeParser.commandType()
+
         if type == "A":
-            assembledLine = "0" + convA2Bin(int(codeParser.symbol()))
+            symbol = codeParser.symbol()
+            if symboltable.contains(symbol):
+                print "SYMB: " + str(symbol)
+                symbol = symboltable.GetAddress(symbol)
+            assembledLine = "0" + convA2Bin(int(symbol))
         elif type == "C":
             assembledLine = "111" + codeLookup.comp(codeParser.comp()) + codeLookup.dest(codeParser.dest()) + codeLookup.jump(codeParser.jump())
 
