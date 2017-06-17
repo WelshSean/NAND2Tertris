@@ -29,5 +29,15 @@ class MyTestCase(unittest.TestCase):
             self.assertEqual(testOutput[counter], line)
             counter += 1
 
+    def test_assembly_Rect(self):
+        testOutput = assembler('/Users/Sean/Desktop/nand2tetris/projects/06/Assembler/rect/Rect.asm')
+        self.assertEqual(len(testOutput), 25)
+        counter = 0
+        with open("/Users/Sean/Desktop/nand2tetris/projects/06/Assembler/rect/Rect.testhack", mode='r') as f:
+            lines = f.read().splitlines()
+        for line in lines:
+            self.assertEqual(testOutput[counter], line)
+            counter += 1
+
 if __name__ == '__main__':
     unittest.main()

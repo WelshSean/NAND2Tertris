@@ -242,7 +242,7 @@ def assembler(fileName):
     codeParser=Parser(fileName)
     codeLookup=Code()
     symboltable = SymbolTable()
-
+    ram_address = 16
     # Init symbol table
     symboltable.addEntry("SP", 0)
     symboltable.addEntry("LCL", 1)
@@ -281,10 +281,17 @@ def assembler(fileName):
 
         if type == "A":
             symbol = codeParser.symbol()
-            if symboltable.contains(symbol):
+            if symboltable.contains(symbol):    # Existing symbol so subsititute value
                 print "SYMB: " + str(symbol)
                 symbol = symboltable.GetAddress(symbol)
-            assembledLine = "0" + convA2Bin(int(symbol))
+                assembledLine = "0" + convA2Bin(int(symbol))
+            else:
+                if re.match("^[A-Za-z_]+$", symbol):            # If symbol isnt only numeric then new declaration so create and go onto next line - no output to write
+                    symboltable.addEntry(symbol, ram_address)
+                    ram_address += 1
+                    continue
+                else:                                           # Substitute value for numeric symbol
+                    assembledLine = "0" + convA2Bin(int(symbol))
         elif type == "C":
             assembledLine = "111" + codeLookup.comp(codeParser.comp()) + codeLookup.dest(codeParser.dest()) + codeLookup.jump(codeParser.jump())
 
@@ -302,7 +309,7 @@ def assembler(fileName):
 
 
 if __name__ == "__main__":
-    assembler(sys.argv[0])
+    assembler(sys.argv[1])
 
 
 
