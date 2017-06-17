@@ -59,12 +59,12 @@ class Parser(object):
             L_COMMAND: (xxx) where xxx is a symbol
         """
         currentLine = self.lines[self.fileIndex]
-        print "CURRENTLINE:" + str(currentLine)
-        if re.match('^\s*@[A-Za-z0-9_]+\s*.*$', currentLine):
+        #print "CURRENTLINE:" + str(currentLine)
+        if re.match('^\s*@[A-Za-z0-9_\.$]+\s*.*$', currentLine):
             return "A"
         elif re.match('^\s*[ADM]{1,3}?=', currentLine) or re.match('.+;J..', currentLine):
             return "C"
-        elif re.match('^\s*\([A-Za-z0-9_]+\)\s*$', currentLine):
+        elif re.match('^\s*\([A-Za-z0-9_\.$]+\)\s*$', currentLine):
             return "L"
         else:
             return"ERR_NOMATCH"
@@ -73,9 +73,8 @@ class Parser(object):
         """ Returns the Symbol or Decimal part of an A command @100 or @SYMBOL"""
         currentLine = self.lines[self.fileIndex]
         if self.commandType() == "A":
-            return re.search('^\s*@([0-9A-Za-z_]+)\s*.*$', currentLine).group(1)
+            return re.search('^\s*@([0-9A-Za-z_\.$]+)\s*.*$', currentLine).group(1)
         elif self.commandType() == "L":
-            #return re.search('^\s*\(([0-9A-Za-z_])\)\s*.*$', currentLine).group(1)
             return re.search('\((.+)\)', currentLine).group(1)
         else:
             print "Error: - called when not A commmand: " + str(currentLine)
@@ -100,13 +99,13 @@ class Parser(object):
         currentLine = self.lines[self.fileIndex]
         if self.commandType() == "C":
             if re.search('=', currentLine):
-                m = re.search('([ADM]+=){0,1}([ADM0\-1\+|&]+)(;J..){0,1}', currentLine)
+                m = re.search('([ADM]+=){0,1}([ADM0\-1\+|&!]+)(;J..){0,1}', currentLine)
                 if m:
                     return m.group(2)
                 else:
                     print "bleugh"
             elif re.search(';', currentLine):
-                m = re.search('([ADM]+=){0,1}([ADM0\-1\+|&]+)(;J..){0,1}', currentLine)
+                m = re.search('([ADM]+=){0,1}([ADM0\-1\+|&!]+)(;J..){0,1}', currentLine)
                 if m:
                     return m.group(2)
                 else:
@@ -276,22 +275,24 @@ def assembler(fileName):
 
     while True:
         line=codeParser.getLine()
-        print "ASSEMBLER: " + str(line)
+        #print "ASSEMBLER: " + str(line)
         type = codeParser.commandType()
 
         if type == "A":
             symbol = codeParser.symbol()
             if symboltable.contains(symbol):    # Existing symbol so subsititute value
-                print "SYMB: " + str(symbol)
+                #print "SYMB: " + str(symbol)
                 symbol = symboltable.GetAddress(symbol)
                 assembledLine = "0" + convA2Bin(int(symbol))
-            else:
-                if re.match("^[A-Za-z_]+$", symbol):            # If symbol isnt only numeric then new declaration so create and go onto next line - no output to write
+            else:                                                   # Substitute value for numeric symbol
+                if re.match("^[0-9]+$", symbol):
+                    assembledLine = "0" + convA2Bin(int(symbol))
+
+                else:                        # If symbol isnt only numeric then new declaration so create and go onto next line - no output to write
                     symboltable.addEntry(symbol, ram_address)
                     ram_address += 1
                     continue
-                else:                                           # Substitute value for numeric symbol
-                    assembledLine = "0" + convA2Bin(int(symbol))
+
         elif type == "C":
             assembledLine = "111" + codeLookup.comp(codeParser.comp()) + codeLookup.dest(codeParser.dest()) + codeLookup.jump(codeParser.jump())
 
