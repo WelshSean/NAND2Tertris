@@ -264,7 +264,8 @@ def assembler(fileName):
         line=ParserPassOne.getLine()
         if ParserPassOne.commandType() == "L":
             symboltable.addEntry(ParserPassOne.symbol(), index)
-        index +=1
+        if ParserPassOne.commandType() == "A" or ParserPassOne.commandType() == 'C':
+            index +=1
 
         if ParserPassOne.hasMoreCommands():
             ParserPassOne.advance()
@@ -287,9 +288,9 @@ def assembler(fileName):
         elif type == "C":
             assembledLine = "111" + codeLookup.comp(codeParser.comp()) + codeLookup.dest(codeParser.dest()) + codeLookup.jump(codeParser.jump())
 
-        print "LINE: " + assembledLine
-        outputFile.write(assembledLine + "\n")
-        output.append(assembledLine)
+        if codeParser.commandType() == "A" or codeParser.commandType() == 'C':
+            outputFile.write(assembledLine + "\n")
+            output.append(assembledLine)
 
         if codeParser.hasMoreCommands():
             codeParser.advance()
