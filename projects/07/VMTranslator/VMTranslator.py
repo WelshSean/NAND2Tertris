@@ -15,10 +15,10 @@ class Parser(object):
 
         stem = fileName.split(".")[0]  # Making assumption that file is stem.vm
         self.fileIndex=0
-        self.inputFile = open(fileName, 'r')
         with open(fileName) as f:
             self.lines = f.read().splitlines()
         self.lines = self.removeCommentsAndWhitespace(self.lines)
+        self.arithmeticCommands=['add', 'sub', 'neg', 'eq', 'gt', 'lt', 'and', 'or', 'not']
 
 
     @staticmethod
@@ -48,3 +48,76 @@ class Parser(object):
             return True
         else:
             return False
+
+    def commandType(self):
+        """ return the type of command"""
+        # todo C_LABEL, C_GOTO, C_IF, C_FUNCTION, C_RETURN, C_CALL
+        currentLine = self.lines[self.fileIndex]
+
+        firstCommand = currentLine.split()[0]
+        if  firstCommand in self.arithmeticCommands:        # Arithmetic commands
+            return 'C_ARITHMETIC'
+        elif firstCommand == 'push':                          # Push
+            return 'C_PUSH'
+        elif firstCommand =='pop':
+            return 'C_POP'
+
+    def arg1(self):
+        """ return the first argument of the VM command """
+        if self.commandType() == 'C_RETURN':
+            return "C_ERROR_BAD_CALL"
+        else:
+            currentLine = self.lines[self.fileIndex]
+            splitLine = currentLine.split()
+            if self.commandType() != 'C_ARITHMETIC' and len(splitLine) > 1:
+                return splitLine[1]
+            elif self.commandType() == 'C_ARITHMETIC' and len(splitLine) == 1 :
+                return splitLine[0]
+            else:
+                return 'C_ERROR_NOMATCH'
+
+    def arg2(self):
+        """ return the second argument of the VM command"""
+        if self.commandType() in ['C_PUSH', 'C_POP', 'C_FUNCTION', 'C_CALL']:
+            currentLine = self.lines[self.fileIndex]
+            return currentLine.split()[2]
+        else:
+            return 'C_BAD_CALL'
+
+
+class CodeWriter(object):
+    """
+    CodeWriter - takes output of the Parser and creates output file
+    """
+
+    def __init__(self, fileName):
+        self.file = open(fileName, 'w')
+
+    def setFileName(self, fileName):
+        self.file = open(fileName, 'w')
+
+    def close(self):
+        self.file.close()
+
+    def writeArithmetic(self, command):
+        pass
+
+    def writePushPop(self, command, segment, index):
+        """ Implement push and pop functionality """
+        if command == 'C_PUSH':
+            if segment == 'local':
+                self.file.write('@' + str(index) + '\t\t//D=' + str(index) + '\n')
+                self.file.write('D=A' + '\n')
+                self.file.write('@SP' + '\t\t//*SP=D' + '\n' )
+                self.file.write('A=M' + '\n')
+                self.file.write('M=D' + '\n')
+                self.file.write('@SP' + '\t\t//SP++' + '\n')
+                self.file.write('M=M+1' + '\n')
+            else:
+                print "ERROR: local should only push!"
+
+
+
+
+
+
