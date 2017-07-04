@@ -100,12 +100,22 @@ class CodeWriter(object):
         self.file.close()
 
     def writeArithmetic(self, command):
-        pass
+        if command == 'add':
+            self.file.write('@SP' + '\t\t//SP--' + '\n')
+            self.file.write('M=M-1' + '\n')
+            self.file.write('A=M' + '\t\t//D=*SP' '\n')
+            self.file.write('D=M' + '\n')
+            self.file.write('@SP' + '\t\t//SP--' + '\n')
+            self.file.write('M=M-1' + '\n')
+            self.file.write('A=M' + '\t\t//*SP=D+*SP' '\n')
+            self.file.write('M=D+M' + '\n')
+            self.file.write('@SP' + '\t\t//SP++' + '\n')
+            self.file.write('M=M+1' + '\n')
 
     def writePushPop(self, command, segment, index):
         """ Implement push and pop functionality """
         if command == 'C_PUSH':
-            if segment == 'local':
+            if segment == 'constant':
                 self.file.write('@' + str(index) + '\t\t//D=' + str(index) + '\n')
                 self.file.write('D=A' + '\n')
                 self.file.write('@SP' + '\t\t//*SP=D' + '\n' )
@@ -114,7 +124,32 @@ class CodeWriter(object):
                 self.file.write('@SP' + '\t\t//SP++' + '\n')
                 self.file.write('M=M+1' + '\n')
             else:
-                print "ERROR: local should only push!"
+                print "ERROR: constant should only push!"
+
+
+def VMTranslator(fileName):
+    vmParse = Parser(fileName)
+    vmCodeWriter = CodeWriter(fileName.split(".")[0] + '.asm')
+    while True:
+        commandType = vmParse.commandType()
+        arg1 = vmParse.arg1()
+        arg2 = vmParse.arg2()
+        if commandType == 'C_PUSH':
+            print commandType + " PUSH!"
+            vmCodeWriter.writePushPop(commandType, arg1, arg2)
+        elif commandType == 'C_ARITHMETIC':
+            print commandType + " ARITHMETIC"
+            vmCodeWriter.writeArithmetic(arg1)
+        else:
+            print commandType + " Error - Catch all reached"
+        if vmParse.hasMoreCommands():
+            vmParse.advance()
+        else:
+            break
+    vmCodeWriter.close()
+
+if __name__ == '__main__':
+    VMTranslator(sys.argv[1])
 
 
 
