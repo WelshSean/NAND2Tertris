@@ -92,6 +92,11 @@ class CodeWriter(object):
 
     def __init__(self, fileName):
         self.file = open(fileName, 'w')
+        self.uuid = 0
+
+    def getNewUUID(self):
+        self.uuid += 1
+        return '$' + str(self.uuid)
 
     def setFileName(self, fileName):
         self.file = open(fileName, 'w')
@@ -171,15 +176,13 @@ class CodeWriter(object):
             self.file.write('M=0' + '\t// Not greater therefore set stack entry at SP to 0 and then jump to end infinite loop' + '\n')
             self.file.write('@SP' + '\t// Increment SP' +'\n')
             self.file.write('M=M+1' +'\n')
-            self.file.write('@INFLOOP' +'\n')
+            self.file.write('@END' +'\n')
             self.file.write('0;JMP' + '\n')
             self.file.write('(GREATER)' + '\n')
             self.file.write('M=1' + '\t// We jumped here because top item was greate than item below it so set top Stack entry to 1' + '\n')
             self.file.write('@SP' + '\t// Increment SP' +'\n')
             self.file.write('M=M+1' + '\n')
-            self.file.write('(INFLOOP)' + '\n')
-            self.file.write('@INFLOOP' + '\n')
-            self.file.write('0;JMP' + '\n')
+            self.file.write('(END)' + '\n')
         elif command == 'lt':
             self.file.write('@SP' + '\t\t//SP--' + '\n')
             self.file.write('M=M-1' + '\n')
@@ -193,15 +196,40 @@ class CodeWriter(object):
             self.file.write('M=1' + '\t// Not greater therefore set stack entry at SP to 1 and then jump to end infinite loop' + '\n')
             self.file.write('@SP' + '\t// Increment SP' +'\n')
             self.file.write('M=M+1' +'\n')
-            self.file.write('@INFLOOP' +'\n')
+            self.file.write('@END' +'\n')
             self.file.write('0;JMP' + '\n')
             self.file.write('(GREATER)' + '\n')
             self.file.write('M=0' + '\t// We jumped here because top item was greate than item below it so set top Stack entry to 0' + '\n')
             self.file.write('@SP' + '\t// Increment SP' +'\n')
             self.file.write('M=M+1' + '\n')
-            self.file.write('(INFLOOP)' + '\n')
-            self.file.write('@INFLOOP' + '\n')
+            self.file.write('(END)' + '\n')
+        elif command == 'eq':
+            ENDUUID = self.getNewUUID()
+            NOTEQUALUUID = self.getNewUUID()
+            self.file.write('@SP' + '\t\t//SP--' + '\n')
+            self.file.write('M=M-1' + '\n')
+            self.file.write('A=M' + '\t\t//D=*SP' '\n')
+            self.file.write('D=M' + '\n')
+            self.file.write('@SP' + '\t\t//SP--' + '\n')
+            self.file.write('M=M-1' + '\n')
+            self.file.write('A=M' + '\n')
+            self.file.write('D=D-M' + '\n')
+            self.file.write('@NOTEQUAL' + NOTEQUALUUID + '\t// Jump to notequal if top item in stack is not equal to the one below it' + '\n')
+            self.file.write('D;JNE' +'\n')
+            self.file.write('@SP' + '\n')
+            self.file.write('A=M' + '\n')
+            self.file.write('M=1' + '\t// Equal therefore set stack entry at SP to 1 and then jump to end infinite loop' + '\n')
+            self.file.write('@SP' + '\t// Increment SP' +'\n')
+            self.file.write('M=M+1' +'\n')
+            self.file.write('@END'+ ENDUUID +'\n')
             self.file.write('0;JMP' + '\n')
+            self.file.write('(NOTEQUAL' + NOTEQUALUUID + ')' + '\n')
+            self.file.write('@SP' + '\n')
+            self.file.write('A=M' + '\n')
+            self.file.write('M=0' + '\t// We jumped here because top item was not equal to the item below it so set top Stack entry to 0' + '\n')
+            self.file.write('@SP' + '\t// Increment SP' +'\n')
+            self.file.write('M=M+1' + '\n')
+            self.file.write('(END' + ENDUUID + ')' + '\n')
 
     def writePushPop(self, command, segment, index):
         """ Implement push and pop functionality """
