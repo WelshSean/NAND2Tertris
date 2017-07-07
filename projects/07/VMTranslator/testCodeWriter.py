@@ -42,7 +42,7 @@ class MyTestCaseCodeWriter(unittest.TestCase):
 
     def test_writeArithmeticSub(self):
         answer = ['@SP\t\t//SP--', 'M=M-1', 'A=M\t\t//D=*SP', 'D=M', '@SP\t\t//SP--', 'M=M-1', 'A=M\t\t//*SP=D+*SP',
-                    'M=D-M', '@SP\t\t//SP++', 'M=M+1']
+                    'M=M-D', '@SP\t\t//SP++', 'M=M+1']
         self.testCodeWriter.writeArithmetic('sub')
         self.testCodeWriter.close()
         counter = 0
@@ -109,12 +109,13 @@ class MyTestCaseCodeWriter(unittest.TestCase):
             counter += 1
 
     def test_writeArithmeticGT(self):
-        answer = ['@SP\t\t//SP--', 'M=M-1', 'A=M\t\t//D=*SP', 'D=M', '@SP\t\t//SP--', 'M=M-1', 'A=M',
-                  '@GREATER\t// Jump to greater if top item in stack is greater than the one below it', 'D-M;JGT',
+        answer = ['@SP\t\t//SP--', 'M=M-1', 'A=M\t\t//D=*SP', 'D=M', '@SP\t\t//SP--', 'M=M-1', 'A=M', 'D=M-D',
+                  '@GREATER$1\t// Jump to greater if top item in stack is greater than the one below it', 'D;JGT',
+                  '@SP', 'A=M',
                   'M=0\t// Not greater therefore set stack entry at SP to 0 and then jump to end infinite loop',
-                  '@SP\t// Increment SP', 'M=M+1', '@END', '0;JMP', '(GREATER)',
-                  'M=1\t// We jumped here because top item was greate than item below it so set top Stack entry to 1',
-                  '@SP\t// Increment SP', 'M=M+1', '(END)']
+                  '@SP\t// Increment SP', 'M=M+1', '@END$2', '0;JMP', '(GREATER$1)', '@SP', 'A=M',
+                  'M=-1\t// We jumped here because top item was greate than item below it so set top Stack entry to -1',
+                  '@SP\t// Increment SP', 'M=M+1', '(END$2)']
         self.testCodeWriter.writeArithmetic('gt')
         self.testCodeWriter.close()
         counter = 0
@@ -127,12 +128,12 @@ class MyTestCaseCodeWriter(unittest.TestCase):
             counter += 1
 
     def test_writeArithmeticLT(self):
-        answer = ['@SP\t\t//SP--', 'M=M-1', 'A=M\t\t//D=*SP', 'D=M', '@SP\t\t//SP--', 'M=M-1', 'A=M',
-                  '@GREATER\t// Jump to greater if top item in stack is greater than the one below it', 'D-M;JGT',
-                  'M=1\t// Not greater therefore set stack entry at SP to 1 and then jump to end infinite loop',
-                  '@SP\t// Increment SP', 'M=M+1', '@END', '0;JMP', '(GREATER)',
-                  'M=0\t// We jumped here because top item was greate than item below it so set top Stack entry to 0',
-                  '@SP\t// Increment SP', 'M=M+1', '(END)']
+        answer = ['@SP\t\t//SP--', 'M=M-1', 'A=M\t\t//D=*SP', 'D=M', '@SP\t\t//SP--', 'M=M-1', 'A=M', 'D=D-M',
+                  '@LESS$1\t// Jump to less if top item in stack is greater than the one below it', 'D;JGT','@SP', 'A=M',
+                  'M=0\t// Not greater therefore set stack entry at SP to 1 and then jump to end infinite loop',
+                  '@SP\t// Increment SP', 'M=M+1', '@END$2', '0;JMP', '(LESS$1)', '@SP', 'A=M',
+                  'M=-1\t// We jumped here because top item was greater than item below it so set top Stack entry to -1',
+                  '@SP\t// Increment SP', 'M=M+1', '(END$2)']
         self.testCodeWriter.writeArithmetic('lt')
         self.testCodeWriter.close()
         counter = 0
@@ -146,12 +147,12 @@ class MyTestCaseCodeWriter(unittest.TestCase):
 
     def test_writeArithmeticEQ(self):
         answer = ['@SP\t\t//SP--', 'M=M-1', 'A=M\t\t//D=*SP', 'D=M', '@SP\t\t//SP--', 'M=M-1', 'A=M', 'D=D-M',
-                  '@NOTEQUAL\t// Jump to notequal if top item in stack is not equal to the one below it', 'D;JNE',
+                  '@NOTEQUAL$2\t// Jump to notequal if top item in stack is not equal to the one below it', 'D;JNE',
                   '@SP', 'A=M',
-                  'M=1\t// Equal therefore set stack entry at SP to 1 and then jump to end infinite loop',
-                  '@SP\t// Increment SP', 'M=M+1', '@END', '0;JMP', '(NOTEQUAL)','@SP', 'A=M',
+                  'M=-1\t// Equal therefore set stack entry at SP to 1 and then jump to end infinite loop',
+                  '@SP\t// Increment SP', 'M=M+1', '@END$1', '0;JMP', '(NOTEQUAL$2)','@SP', 'A=M',
                   'M=0\t// We jumped here because top item was not equal to the item below it so set top Stack entry to 0',
-                  '@SP\t// Increment SP', 'M=M+1', '(END)']
+                  '@SP\t// Increment SP', 'M=M+1', '(END$1)']
         self.testCodeWriter.writeArithmetic('eq')
         self.testCodeWriter.close()
         counter = 0
