@@ -172,6 +172,21 @@ class MyTestCaseCodeWriter(unittest.TestCase):
             counter +=1
 
 
+    def test_writePushTemp(self):
+        answer = ['@5\t// Store temp in 8 locations from 5-12', 'D=A', '@TEMPADDR',
+                     'M=D', '@i', 'D=M', '@TEMPADDR',   'M=M+D' ,   '@TEMPADDR\t// Store local[i] in D',
+                    'A=M', 'D=M' , '@SP\t// set the topmost value in the stack to D',  'A=M', 'M=D', '@SP', 'M=M+1']
+        self.testCodeWriter.writePushPop('C_PUSH', 'temp', '7')
+        self.testCodeWriter.close()
+        counter = 0
+        with open('/tmp/testfile.asm', mode='r') as f:
+            lines = f.read().splitlines()
+        for line in lines:
+            print line
+            self.assertEqual(line, answer[counter])
+            counter +=1
+
+
 
     def test_writeArithmeticAdd(self):
         answer = ['@SP\t\t//SP--', 'M=M-1', 'A=M\t\t//D=*SP', 'D=M', '@SP\t\t//SP--', 'M=M-1', 'A=M\t\t//*SP=D+*SP',
