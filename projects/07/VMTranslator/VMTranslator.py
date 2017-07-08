@@ -247,6 +247,7 @@ class CodeWriter(object):
 
     def writePushPop(self, command, segment, index):
         """ Implement push and pop functionality """
+        segmap = {'local':'LCL', 'argument': 'ARG', 'this':'THIS', 'that':'THAT'}
         if command == 'C_PUSH':
             if segment == 'constant':
                 self.file.write('@' + str(index) + '\t\t//D=' + str(index) + '\n')
@@ -256,15 +257,38 @@ class CodeWriter(object):
                 self.file.write('M=D' + '\n')
                 self.file.write('@SP' + '\t\t//SP++' + '\n')
                 self.file.write('M=M+1' + '\n')
-            else:
-                print "ERROR: constant should only push!"
-        elif command == "C_POP":
-            if segment == "local":
-                self.file.write('@' + index + '\t// Store address relative to LCL (offset)' +'\n')
+            elif segment in ["local","argument", 'this', 'that']:
+                SEGLABEL = '@' + segmap[segment]
+                self.file.write('@' + index + '\t// Store address relative to ' + SEGLABEL +' (offset)' +'\n')
                 self.file.write('D=A' +'\n')
                 self.file.write('@i' + '\n')
                 self.file.write('M=D' + '\n')
-                self.file.write('@LCL\t// Store LCL + i' +'\n')
+                self.file.write(SEGLABEL +'\t// Store ' + SEGLABEL + ' + i' +'\n')
+                self.file.write('D=M' + '\n')
+                self.file.write('@TEMPADDR' + '\n')
+                self.file.write('M=D' + '\n')
+                self.file.write('@i' + '\n')
+                self.file.write('D=M' + '\n')
+                self.file.write('@TEMPADDR' + '\n')
+                self.file.write('M=M+D' + '\n')
+                self.file.write('@SP\t//    SP--' + '\n')
+                self.file.write('M=M-1' + '\n')
+                self.file.write('@TEMPADDR\t// Store local[i] in D' + '\n')
+                self.file.write('A=M' + '\n')
+                self.file.write('D=M' + '\n')
+                self.file.write('@SP\t// set the topmost value in the stack to D' + '\n')
+                self.file.write('A=M' + '\n')
+                self.file.write('M=D' + '\n')
+            else:
+                print "ERROR: constant should only push!"
+        elif command == "C_POP":
+            if segment in ["local","argument", 'this', 'that']:
+                SEGLABEL = '@' + segmap[segment]
+                self.file.write('@' + index + '\t// Store address relative to ' + SEGLABEL +' (offset)' +'\n')
+                self.file.write('D=A' +'\n')
+                self.file.write('@i' + '\n')
+                self.file.write('M=D' + '\n')
+                self.file.write(SEGLABEL +'\t// Store ' + SEGLABEL + ' + i' +'\n')
                 self.file.write('D=M' + '\n')
                 self.file.write('@TEMPADDR' + '\n')
                 self.file.write('M=D' + '\n')

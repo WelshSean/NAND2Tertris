@@ -25,9 +25,24 @@ class MyTestCaseCodeWriter(unittest.TestCase):
             self.assertEqual(line, answer[counter])
             counter +=1
 
+    def test_writePushlocal(self):
+        answer = ['@7\t// Store address relative to @LCL (offset)', 'D=A', '@i', 'M=D',
+                    '@LCL\t// Store @LCL + i', 'D=M', '@TEMPADDR',  'M=D',  '@i',
+                    'D=M', '@TEMPADDR' , 'M=M+D' , '@SP\t//    SP--', 'M=M-1', '@TEMPADDR\t// Store local[i] in D',
+                    'A=M', 'D=M' , '@SP\t// set the topmost value in the stack to D',  'A=M', 'M=D']
+        self.testCodeWriter.writePushPop('C_PUSH', 'local', '7')
+        self.testCodeWriter.close()
+        counter = 0
+        with open('/tmp/testfile', mode='r') as f:
+            lines = f.read().splitlines()
+        for line in lines:
+            print line
+            self.assertEqual(line, answer[counter])
+            counter +=1
+
     def test_writePoPlocal(self):
-        answer = ['@7\t// Store address relative to LCL (offset)', 'D=A', '@i', 'M=D',
-                    '@LCL\t// Store LCL + i', 'D=M', '@TEMPADDR',  'M=D',  '@i',
+        answer = ['@7\t// Store address relative to @LCL (offset)', 'D=A', '@i', 'M=D',
+                    '@LCL\t// Store @LCL + i', 'D=M', '@TEMPADDR',  'M=D',  '@i',
                     'D=M', '@TEMPADDR' , 'M=M+D' , '@SP\t//    SP--', 'M=M-1', '@SP\t// Store top stack value in D',
                     'A=M', 'D=M' , '@TEMPADDR\t// set MEM[TEMPADDR] (LCL+i) to D',  'A=M', 'M=D']
         self.testCodeWriter.writePushPop('C_POP', 'local', '7')
@@ -39,6 +54,98 @@ class MyTestCaseCodeWriter(unittest.TestCase):
             print line
             self.assertEqual(line, answer[counter])
             counter +=1
+
+    def test_writePushArgument(self):
+        answer = ['@7\t// Store address relative to @ARG (offset)', 'D=A', '@i', 'M=D',
+                    '@ARG\t// Store @ARG + i', 'D=M', '@TEMPADDR',  'M=D',  '@i',
+                    'D=M', '@TEMPADDR' , 'M=M+D' , '@SP\t//    SP--', 'M=M-1', '@TEMPADDR\t// Store local[i] in D',
+                    'A=M', 'D=M' , '@SP\t// set the topmost value in the stack to D',  'A=M', 'M=D']
+        self.testCodeWriter.writePushPop('C_PUSH', 'argument', '7')
+        self.testCodeWriter.close()
+        counter = 0
+        with open('/tmp/testfile', mode='r') as f:
+            lines = f.read().splitlines()
+        for line in lines:
+            print line
+            self.assertEqual(line, answer[counter])
+            counter +=1
+
+    def test_writePoPArgument(self):
+        answer = ['@7\t// Store address relative to @ARG (offset)', 'D=A', '@i', 'M=D',
+                    '@ARG\t// Store @ARG + i', 'D=M', '@TEMPADDR',  'M=D',  '@i',
+                    'D=M', '@TEMPADDR' , 'M=M+D' , '@SP\t//    SP--', 'M=M-1', '@SP\t// Store top stack value in D',
+                    'A=M', 'D=M' , '@TEMPADDR\t// set MEM[TEMPADDR] (LCL+i) to D',  'A=M', 'M=D']
+        self.testCodeWriter.writePushPop('C_POP', 'argument', '7')
+        self.testCodeWriter.close()
+        counter = 0
+        with open('/tmp/testfile', mode='r') as f:
+            lines = f.read().splitlines()
+        for line in lines:
+            print line
+            self.assertEqual(line, answer[counter])
+            counter +=1
+
+    def test_writePushThis(self):
+        answer = ['@7\t// Store address relative to @THIS (offset)', 'D=A', '@i', 'M=D',
+                    '@THIS\t// Store @THIS + i', 'D=M', '@TEMPADDR',  'M=D',  '@i',
+                    'D=M', '@TEMPADDR' , 'M=M+D' , '@SP\t//    SP--', 'M=M-1', '@TEMPADDR\t// Store local[i] in D',
+                    'A=M', 'D=M' , '@SP\t// set the topmost value in the stack to D',  'A=M', 'M=D']
+        self.testCodeWriter.writePushPop('C_PUSH', 'this', '7')
+        self.testCodeWriter.close()
+        counter = 0
+        with open('/tmp/testfile', mode='r') as f:
+            lines = f.read().splitlines()
+        for line in lines:
+            print line
+            self.assertEqual(line, answer[counter])
+            counter +=1
+
+    def test_writePoPThis(self):
+        answer = ['@7\t// Store address relative to @THIS (offset)', 'D=A', '@i', 'M=D',
+                    '@THIS\t// Store @THIS + i', 'D=M', '@TEMPADDR',  'M=D',  '@i',
+                    'D=M', '@TEMPADDR' , 'M=M+D' , '@SP\t//    SP--', 'M=M-1', '@SP\t// Store top stack value in D',
+                    'A=M', 'D=M' , '@TEMPADDR\t// set MEM[TEMPADDR] (LCL+i) to D',  'A=M', 'M=D']
+        self.testCodeWriter.writePushPop('C_POP', 'this', '7')
+        self.testCodeWriter.close()
+        counter = 0
+        with open('/tmp/testfile', mode='r') as f:
+            lines = f.read().splitlines()
+        for line in lines:
+            print line
+            self.assertEqual(line, answer[counter])
+            counter +=1
+
+    def test_writePushThat(self):
+        answer = ['@7\t// Store address relative to @THAT (offset)', 'D=A', '@i', 'M=D',
+                    '@THAT\t// Store @THAT + i', 'D=M', '@TEMPADDR',  'M=D',  '@i',
+                    'D=M', '@TEMPADDR' , 'M=M+D' , '@SP\t//    SP--', 'M=M-1', '@TEMPADDR\t// Store local[i] in D',
+                    'A=M', 'D=M' , '@SP\t// set the topmost value in the stack to D',  'A=M', 'M=D']
+        self.testCodeWriter.writePushPop('C_PUSH', 'that', '7')
+        self.testCodeWriter.close()
+        counter = 0
+        with open('/tmp/testfile', mode='r') as f:
+            lines = f.read().splitlines()
+        for line in lines:
+            print line
+            self.assertEqual(line, answer[counter])
+            counter +=1
+
+    def test_writePoPThat(self):
+        answer = ['@7\t// Store address relative to @THAT (offset)', 'D=A', '@i', 'M=D',
+                    '@THAT\t// Store @THAT + i', 'D=M', '@TEMPADDR',  'M=D',  '@i',
+                    'D=M', '@TEMPADDR' , 'M=M+D' , '@SP\t//    SP--', 'M=M-1', '@SP\t// Store top stack value in D',
+                    'A=M', 'D=M' , '@TEMPADDR\t// set MEM[TEMPADDR] (LCL+i) to D',  'A=M', 'M=D']
+        self.testCodeWriter.writePushPop('C_POP', 'that', '7')
+        self.testCodeWriter.close()
+        counter = 0
+        with open('/tmp/testfile', mode='r') as f:
+            lines = f.read().splitlines()
+        for line in lines:
+            print line
+            self.assertEqual(line, answer[counter])
+            counter +=1
+
+
 
     def test_writeArithmeticAdd(self):
         answer = ['@SP\t\t//SP--', 'M=M-1', 'A=M\t\t//D=*SP', 'D=M', '@SP\t\t//SP--', 'M=M-1', 'A=M\t\t//*SP=D+*SP',
