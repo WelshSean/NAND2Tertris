@@ -285,6 +285,7 @@ class CodeWriter(object):
                 self.file.write(funcname + '\t// Read in funcname.index and put on top of stack' + '\n')
                 self.file.write('D=M' + '\n')
                 self.file.write('@SP' + '\n')
+                self.file.write('A=M' +'\n')
                 self.file.write('M=D' + '\n')
                 self.file.write('@SP' + '\t// increment Stack pointer' + '\n')
                 self.file.write('M=M+1' + '\n')

@@ -131,7 +131,7 @@ class MyTestCaseCodeWriter(unittest.TestCase):
             counter +=1
             
     def test_writePushStatic(self):
-        answer = ['@testfile.7\t// Read in funcname.index and put on top of stack', 'D=M', '@SP', 'M=D',
+        answer = ['@testfile.7\t// Read in funcname.index and put on top of stack', 'D=M', '@SP', 'A=M', 'M=D',
                     '@SP\t// increment Stack pointer', 'M=M+1']
         self.testCodeWriter.writePushPop('C_PUSH', 'static', '7')
         self.testCodeWriter.close()
@@ -173,9 +173,9 @@ class MyTestCaseCodeWriter(unittest.TestCase):
 
 
     def test_writePushTemp(self):
-        answer = ['@5\t// Store temp in 8 locations from 5-12', 'D=A', '@TEMPADDR',
-                     'M=D', '@i', 'D=M', '@TEMPADDR',   'M=M+D' ,   '@TEMPADDR\t// Store local[i] in D',
-                    'A=M', 'D=M' , '@SP\t// set the topmost value in the stack to D',  'A=M', 'M=D', '@SP', 'M=M+1']
+        answer = ['@7\t// Store address relative to 5', 'D=A', '@i', 'M=D', '@5', 'D=A', '@TEMPADDR',
+                     'M=D', '@i\t// Store local[i] in D', 'D=M+D', 'A=D' , 'D=M',
+                  '@SP\t// set the topmost value in the stack to D',  'A=M', 'M=D', '@SP', 'M=M+1']
         self.testCodeWriter.writePushPop('C_PUSH', 'temp', '7')
         self.testCodeWriter.close()
         counter = 0
