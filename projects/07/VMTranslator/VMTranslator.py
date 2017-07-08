@@ -92,6 +92,7 @@ class CodeWriter(object):
 
     def __init__(self, fileName):
         self.file = open(fileName, 'w')
+        self.fileName=fileName
         self.uuid = 0
 
     def getNewUUID(self):
@@ -271,16 +272,23 @@ class CodeWriter(object):
                 self.file.write('D=M' + '\n')
                 self.file.write('@TEMPADDR' + '\n')
                 self.file.write('M=M+D' + '\n')
-                self.file.write('@SP\t//    SP--' + '\n')
-                self.file.write('M=M-1' + '\n')
                 self.file.write('@TEMPADDR\t// Store local[i] in D' + '\n')
                 self.file.write('A=M' + '\n')
                 self.file.write('D=M' + '\n')
                 self.file.write('@SP\t// set the topmost value in the stack to D' + '\n')
                 self.file.write('A=M' + '\n')
                 self.file.write('M=D' + '\n')
-            else:
-                print "ERROR: constant should only push!"
+                self.file.write('@SP' + '\n')
+                self.file.write('M=M+1' + '\n')
+            elif segment == 'static':
+                funcname = '@' + self.fileName.split('/')[-1].split('.')[0] + '.' + index
+                self.file.write(funcname + '\t// Read in funcname.index and put on top of stack' + '\n')
+                self.file.write('D=M' + '\n')
+                self.file.write('@SP' + '\n')
+                self.file.write('M=D' + '\n')
+                self.file.write('@SP' + '\t// increment Stack pointer' + '\n')
+                self.file.write('M=M+1' + '\n')
+
         elif command == "C_POP":
             if segment in ["local","argument", 'this', 'that']:
                 SEGLABEL = '@' + segmap[segment]
@@ -304,7 +312,16 @@ class CodeWriter(object):
                 self.file.write('@TEMPADDR\t// set MEM[TEMPADDR] (LCL+i) to D' + '\n')
                 self.file.write('A=M' + '\n')
                 self.file.write('M=D' + '\n')
-
+            elif segment == 'constant':
+                print "ERROR: constant should only push!"
+            elif segment == 'static':
+                funcname = '@' + self.fileName.split('/')[-1].split('.')[0] + '.' + index
+                self.file.write('@SP' + '\t// take from top of stack and save to filename.index' + '\n')
+                self.file.write('M=M-1' + '\n')
+                self.file.write('A=M' + '\n')
+                self.file.write('D=M' + '\n')
+                self.file.write(funcname +  '\n')
+                self.file.write('M=D' + '\n')
         else:
             print "ERROR: no push or pop!"
 

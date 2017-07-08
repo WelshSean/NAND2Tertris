@@ -4,8 +4,8 @@ from VMTranslator import CodeWriter
 
 class MyTestCaseCodeWriter(unittest.TestCase):
     def setUp(self):
-        self.testCodeWriter = CodeWriter('/tmp/testfile')
-        self.reader = open('/tmp/testfile', 'r')
+        self.testCodeWriter = CodeWriter('/tmp/testfile.asm')
+        self.reader = open('/tmp/testfile.asm', 'r')
 
 
     def tearDown(self):
@@ -18,7 +18,7 @@ class MyTestCaseCodeWriter(unittest.TestCase):
         self.testCodeWriter.writePushPop('C_PUSH', 'constant', '7')
         self.testCodeWriter.close()
         counter = 0
-        with open('/tmp/testfile', mode='r') as f:
+        with open('/tmp/testfile.asm', mode='r') as f:
             lines = f.read().splitlines()
         for line in lines:
             print line
@@ -28,12 +28,12 @@ class MyTestCaseCodeWriter(unittest.TestCase):
     def test_writePushlocal(self):
         answer = ['@7\t// Store address relative to @LCL (offset)', 'D=A', '@i', 'M=D',
                     '@LCL\t// Store @LCL + i', 'D=M', '@TEMPADDR',  'M=D',  '@i',
-                    'D=M', '@TEMPADDR' , 'M=M+D' , '@SP\t//    SP--', 'M=M-1', '@TEMPADDR\t// Store local[i] in D',
-                    'A=M', 'D=M' , '@SP\t// set the topmost value in the stack to D',  'A=M', 'M=D']
+                    'D=M', '@TEMPADDR' , 'M=M+D',  '@TEMPADDR\t// Store local[i] in D',
+                    'A=M', 'D=M' , '@SP\t// set the topmost value in the stack to D',  'A=M', 'M=D', '@SP', 'M=M+1']
         self.testCodeWriter.writePushPop('C_PUSH', 'local', '7')
         self.testCodeWriter.close()
         counter = 0
-        with open('/tmp/testfile', mode='r') as f:
+        with open('/tmp/testfile.asm', mode='r') as f:
             lines = f.read().splitlines()
         for line in lines:
             print line
@@ -48,7 +48,7 @@ class MyTestCaseCodeWriter(unittest.TestCase):
         self.testCodeWriter.writePushPop('C_POP', 'local', '7')
         self.testCodeWriter.close()
         counter = 0
-        with open('/tmp/testfile', mode='r') as f:
+        with open('/tmp/testfile.asm', mode='r') as f:
             lines = f.read().splitlines()
         for line in lines:
             print line
@@ -58,12 +58,12 @@ class MyTestCaseCodeWriter(unittest.TestCase):
     def test_writePushArgument(self):
         answer = ['@7\t// Store address relative to @ARG (offset)', 'D=A', '@i', 'M=D',
                     '@ARG\t// Store @ARG + i', 'D=M', '@TEMPADDR',  'M=D',  '@i',
-                    'D=M', '@TEMPADDR' , 'M=M+D' , '@SP\t//    SP--', 'M=M-1', '@TEMPADDR\t// Store local[i] in D',
-                    'A=M', 'D=M' , '@SP\t// set the topmost value in the stack to D',  'A=M', 'M=D']
+                    'D=M', '@TEMPADDR' , 'M=M+D' ,   '@TEMPADDR\t// Store local[i] in D',
+                    'A=M', 'D=M' , '@SP\t// set the topmost value in the stack to D',  'A=M', 'M=D', '@SP', 'M=M+1']
         self.testCodeWriter.writePushPop('C_PUSH', 'argument', '7')
         self.testCodeWriter.close()
         counter = 0
-        with open('/tmp/testfile', mode='r') as f:
+        with open('/tmp/testfile.asm', mode='r') as f:
             lines = f.read().splitlines()
         for line in lines:
             print line
@@ -78,7 +78,7 @@ class MyTestCaseCodeWriter(unittest.TestCase):
         self.testCodeWriter.writePushPop('C_POP', 'argument', '7')
         self.testCodeWriter.close()
         counter = 0
-        with open('/tmp/testfile', mode='r') as f:
+        with open('/tmp/testfile.asm', mode='r') as f:
             lines = f.read().splitlines()
         for line in lines:
             print line
@@ -88,12 +88,12 @@ class MyTestCaseCodeWriter(unittest.TestCase):
     def test_writePushThis(self):
         answer = ['@7\t// Store address relative to @THIS (offset)', 'D=A', '@i', 'M=D',
                     '@THIS\t// Store @THIS + i', 'D=M', '@TEMPADDR',  'M=D',  '@i',
-                    'D=M', '@TEMPADDR' , 'M=M+D' , '@SP\t//    SP--', 'M=M-1', '@TEMPADDR\t// Store local[i] in D',
-                    'A=M', 'D=M' , '@SP\t// set the topmost value in the stack to D',  'A=M', 'M=D']
+                    'D=M', '@TEMPADDR' , 'M=M+D' ,   '@TEMPADDR\t// Store local[i] in D',
+                    'A=M', 'D=M' , '@SP\t// set the topmost value in the stack to D',  'A=M', 'M=D', '@SP', 'M=M+1']
         self.testCodeWriter.writePushPop('C_PUSH', 'this', '7')
         self.testCodeWriter.close()
         counter = 0
-        with open('/tmp/testfile', mode='r') as f:
+        with open('/tmp/testfile.asm', mode='r') as f:
             lines = f.read().splitlines()
         for line in lines:
             print line
@@ -108,7 +108,7 @@ class MyTestCaseCodeWriter(unittest.TestCase):
         self.testCodeWriter.writePushPop('C_POP', 'this', '7')
         self.testCodeWriter.close()
         counter = 0
-        with open('/tmp/testfile', mode='r') as f:
+        with open('/tmp/testfile.asm', mode='r') as f:
             lines = f.read().splitlines()
         for line in lines:
             print line
@@ -118,12 +118,38 @@ class MyTestCaseCodeWriter(unittest.TestCase):
     def test_writePushThat(self):
         answer = ['@7\t// Store address relative to @THAT (offset)', 'D=A', '@i', 'M=D',
                     '@THAT\t// Store @THAT + i', 'D=M', '@TEMPADDR',  'M=D',  '@i',
-                    'D=M', '@TEMPADDR' , 'M=M+D' , '@SP\t//    SP--', 'M=M-1', '@TEMPADDR\t// Store local[i] in D',
-                    'A=M', 'D=M' , '@SP\t// set the topmost value in the stack to D',  'A=M', 'M=D']
+                    'D=M', '@TEMPADDR' , 'M=M+D' ,  '@TEMPADDR\t// Store local[i] in D',
+                    'A=M', 'D=M' , '@SP\t// set the topmost value in the stack to D',  'A=M', 'M=D', '@SP', 'M=M+1']
         self.testCodeWriter.writePushPop('C_PUSH', 'that', '7')
         self.testCodeWriter.close()
         counter = 0
-        with open('/tmp/testfile', mode='r') as f:
+        with open('/tmp/testfile.asm', mode='r') as f:
+            lines = f.read().splitlines()
+        for line in lines:
+            print line
+            self.assertEqual(line, answer[counter])
+            counter +=1
+            
+    def test_writePushStatic(self):
+        answer = ['@testfile.7\t// Read in funcname.index and put on top of stack', 'D=M', '@SP', 'M=D',
+                    '@SP\t// increment Stack pointer', 'M=M+1']
+        self.testCodeWriter.writePushPop('C_PUSH', 'static', '7')
+        self.testCodeWriter.close()
+        counter = 0
+        with open('/tmp/testfile.asm', mode='r') as f:
+            lines = f.read().splitlines()
+        for line in lines:
+            print line
+            self.assertEqual(line, answer[counter])
+            counter +=1
+
+    def test_writePoPStatic(self):
+        answer = ['@SP\t// take from top of stack and save to filename.index', 'M=M-1', 'A=M', 'D=M',
+                    '@testfile.7', 'M=D']
+        self.testCodeWriter.writePushPop('C_POP', 'static', '7')
+        self.testCodeWriter.close()
+        counter = 0
+        with open('/tmp/testfile.asm', mode='r') as f:
             lines = f.read().splitlines()
         for line in lines:
             print line
@@ -138,7 +164,7 @@ class MyTestCaseCodeWriter(unittest.TestCase):
         self.testCodeWriter.writePushPop('C_POP', 'that', '7')
         self.testCodeWriter.close()
         counter = 0
-        with open('/tmp/testfile', mode='r') as f:
+        with open('/tmp/testfile.asm', mode='r') as f:
             lines = f.read().splitlines()
         for line in lines:
             print line
@@ -153,7 +179,7 @@ class MyTestCaseCodeWriter(unittest.TestCase):
         self.testCodeWriter.writeArithmetic('add')
         self.testCodeWriter.close()
         counter = 0
-        with open('/tmp/testfile', mode='r') as f:
+        with open('/tmp/testfile.asm', mode='r') as f:
             lines = f.read().splitlines()
             self.assertNotEqual(len(lines), 0)
         for line in lines:
@@ -168,7 +194,7 @@ class MyTestCaseCodeWriter(unittest.TestCase):
         self.testCodeWriter.writeArithmetic('sub')
         self.testCodeWriter.close()
         counter = 0
-        with open('/tmp/testfile', mode='r') as f:
+        with open('/tmp/testfile.asm', mode='r') as f:
             lines = f.read().splitlines()
             self.assertNotEqual(len(lines), 0)
         for line in lines:
@@ -182,7 +208,7 @@ class MyTestCaseCodeWriter(unittest.TestCase):
         self.testCodeWriter.writeArithmetic('or')
         self.testCodeWriter.close()
         counter = 0
-        with open('/tmp/testfile', mode='r') as f:
+        with open('/tmp/testfile.asm', mode='r') as f:
             lines = f.read().splitlines()
             self.assertNotEqual(len(lines), 0)
         for line in lines:
@@ -196,7 +222,7 @@ class MyTestCaseCodeWriter(unittest.TestCase):
         self.testCodeWriter.writeArithmetic('and')
         self.testCodeWriter.close()
         counter = 0
-        with open('/tmp/testfile', mode='r') as f:
+        with open('/tmp/testfile.asm', mode='r') as f:
             lines = f.read().splitlines()
             self.assertNotEqual(len(lines), 0)
         for line in lines:
@@ -209,7 +235,7 @@ class MyTestCaseCodeWriter(unittest.TestCase):
         self.testCodeWriter.writeArithmetic('neg')
         self.testCodeWriter.close()
         counter = 0
-        with open('/tmp/testfile', mode='r') as f:
+        with open('/tmp/testfile.asm', mode='r') as f:
             lines = f.read().splitlines()
             self.assertNotEqual(len(lines), 0)
         for line in lines:
@@ -222,7 +248,7 @@ class MyTestCaseCodeWriter(unittest.TestCase):
         self.testCodeWriter.writeArithmetic('not')
         self.testCodeWriter.close()
         counter = 0
-        with open('/tmp/testfile', mode='r') as f:
+        with open('/tmp/testfile.asm', mode='r') as f:
             lines = f.read().splitlines()
             self.assertNotEqual(len(lines), 0)
         for line in lines:
@@ -241,7 +267,7 @@ class MyTestCaseCodeWriter(unittest.TestCase):
         self.testCodeWriter.writeArithmetic('gt')
         self.testCodeWriter.close()
         counter = 0
-        with open('/tmp/testfile', mode='r') as f:
+        with open('/tmp/testfile.asm', mode='r') as f:
             lines = f.read().splitlines()
             self.assertNotEqual(len(lines), 0)
         for line in lines:
@@ -259,7 +285,7 @@ class MyTestCaseCodeWriter(unittest.TestCase):
         self.testCodeWriter.writeArithmetic('lt')
         self.testCodeWriter.close()
         counter = 0
-        with open('/tmp/testfile', mode='r') as f:
+        with open('/tmp/testfile.asm', mode='r') as f:
             lines = f.read().splitlines()
             self.assertNotEqual(len(lines), 0)
         for line in lines:
@@ -278,7 +304,7 @@ class MyTestCaseCodeWriter(unittest.TestCase):
         self.testCodeWriter.writeArithmetic('eq')
         self.testCodeWriter.close()
         counter = 0
-        with open('/tmp/testfile', mode='r') as f:
+        with open('/tmp/testfile.asm', mode='r') as f:
             lines = f.read().splitlines()
             self.assertNotEqual(len(lines), 0)
         for line in lines:
