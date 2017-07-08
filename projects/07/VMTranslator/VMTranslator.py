@@ -258,6 +258,31 @@ class CodeWriter(object):
                 self.file.write('M=M+1' + '\n')
             else:
                 print "ERROR: constant should only push!"
+        elif command == "C_POP":
+            if segment == "local":
+                self.file.write('@' + index + '\t// Store address relative to LCL (offset)' +'\n')
+                self.file.write('D=A' +'\n')
+                self.file.write('@i' + '\n')
+                self.file.write('M=D' + '\n')
+                self.file.write('@LCL\t// Store LCL + i' +'\n')
+                self.file.write('D=M' + '\n')
+                self.file.write('@TEMPADDR' + '\n')
+                self.file.write('M=D' + '\n')
+                self.file.write('@i' + '\n')
+                self.file.write('D=M' + '\n')
+                self.file.write('@TEMPADDR' + '\n')
+                self.file.write('M=M+D' + '\n')
+                self.file.write('@SP\t//    SP--' + '\n')
+                self.file.write('M=M-1' + '\n')
+                self.file.write('@SP\t// Store top stack value in D' + '\n')
+                self.file.write('A=M' + '\n')
+                self.file.write('D=M' + '\n')
+                self.file.write('@TEMPADDR\t// set MEM[TEMPADDR] (LCL+i) to D' + '\n')
+                self.file.write('A=M' + '\n')
+                self.file.write('M=D' + '\n')
+
+        else:
+            print "ERROR: no push or pop!"
 
 
 def VMTranslator(fileName):
@@ -267,8 +292,12 @@ def VMTranslator(fileName):
         commandType = vmParse.commandType()
         arg1 = vmParse.arg1()
         arg2 = vmParse.arg2()
+        print commandType, arg1, arg2
         if commandType == 'C_PUSH':
             print commandType + " PUSH!"
+            vmCodeWriter.writePushPop(commandType, arg1, arg2)
+        elif commandType == 'C_POP':
+            print commandType + " POP!"
             vmCodeWriter.writePushPop(commandType, arg1, arg2)
         elif commandType == 'C_ARITHMETIC':
             print commandType + " ARITHMETIC"

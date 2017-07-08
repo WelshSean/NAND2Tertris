@@ -13,9 +13,24 @@ class MyTestCaseCodeWriter(unittest.TestCase):
         self.reader.close()
 
 
-    def test_writePush(self):
+    def test_writePushConstant(self):
         answer = ['@7\t\t//D=7', 'D=A', '@SP\t\t//*SP=D', 'A=M', 'M=D', '@SP\t\t//SP++', 'M=M+1']
-        self.testCodeWriter.writePushPop('C_PUSH', 'local', '7')
+        self.testCodeWriter.writePushPop('C_PUSH', 'constant', '7')
+        self.testCodeWriter.close()
+        counter = 0
+        with open('/tmp/testfile', mode='r') as f:
+            lines = f.read().splitlines()
+        for line in lines:
+            print line
+            self.assertEqual(line, answer[counter])
+            counter +=1
+
+    def test_writePoPlocal(self):
+        answer = ['@7\t// Store address relative to LCL (offset)', 'D=A', '@i', 'M=D',
+                    '@LCL\t// Store LCL + i', 'D=M', '@TEMPADDR',  'M=D',  '@i',
+                    'D=M', '@TEMPADDR' , 'M=M+D' , '@SP\t//    SP--', 'M=M-1', '@SP\t// Store top stack value in D',
+                    'A=M', 'D=M' , '@TEMPADDR\t// set MEM[TEMPADDR] (LCL+i) to D',  'A=M', 'M=D']
+        self.testCodeWriter.writePushPop('C_POP', 'local', '7')
         self.testCodeWriter.close()
         counter = 0
         with open('/tmp/testfile', mode='r') as f:
