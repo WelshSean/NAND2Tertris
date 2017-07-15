@@ -42,6 +42,10 @@ class Parser(object):
         """ move to the next line """
         self.fileIndex += 1
 
+    def gotoLine(self, n):
+        """ goto line n - used for testing """
+        self.fileIndex = n
+
     def hasMoreCommands(self):
         """ indicate if we can advance further """
         if self.fileIndex < len(self.lines) - 1:
@@ -51,7 +55,7 @@ class Parser(object):
 
     def commandType(self):
         """ return the type of command"""
-        # todo C_LABEL, C_GOTO, C_IF, C_FUNCTION, C_RETURN, C_CALL
+        # todo C_FUNCTION, C_RETURN, C_CALL
         currentLine = self.lines[self.fileIndex]
 
         firstCommand = currentLine.split()[0]
@@ -61,6 +65,14 @@ class Parser(object):
             return 'C_PUSH'
         elif firstCommand =='pop':
             return 'C_POP'
+        elif firstCommand == 'label':
+            return 'C_LABEL'
+        elif firstCommand == 'goto':
+            return 'C_GOTO'
+        elif firstCommand == 'if-goto':
+            return 'C_IF'
+        else:
+            return 'ERROR_NOCOMMANDMATCH'
 
     def arg1(self):
         """ return the first argument of the VM command """
