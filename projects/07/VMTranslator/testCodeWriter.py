@@ -327,6 +327,35 @@ class MyTestCaseCodeWriter(unittest.TestCase):
             self.assertEqual(line, answer[counter])
             counter += 1
 
+    # def test_writeLabel(self):
+    #     answer = ['(testlabel$1)']
+    #
+    #     self.testCodeWriter.writeLabel('testlabel')
+    #     self.testCodeWriter.close()
+    #     counter = 0
+    #     with open('/tmp/testfile.asm', mode='r') as f:
+    #         lines = f.read().splitlines()
+    #         self.assertNotEqual(len(lines), 0)
+    #     for line in lines:
+    #         print line
+    #         self.assertEqual(line, answer[counter])
+    #         counter += 1
+
+    def test_getNewUUIDAnonymous(self):
+        UUID = self.testCodeWriter.getNewUUID()
+        self.assertEqual(UUID, '$1')
+        UUID = self.testCodeWriter.getNewUUID()
+        self.assertEqual(UUID,'$2')
+
+    def test_getNewUUIDNamed(self):
+        UUID = self.testCodeWriter.getNewUUID('testuuid1')
+        self.assertEqual(UUID, '$1')
+        UUID = self.testCodeWriter.getNewUUID('testuuid2')
+        self.assertEqual(UUID,'$2')
+        UUID = self.testCodeWriter.getNewUUID('testuuid1')
+        self.assertEqual(UUID, '$1')
+
+
 
 
 
