@@ -6,6 +6,10 @@ class MyTestCaseParser(unittest.TestCase):
     def setUp(self):
         self.testParser = Parser('/Users/Sean/Desktop/nand2tetris/projects/07/StackArithmetic/SimpleAdd/SimpleAdd.vm')
         self.testParser2 = Parser('/Users/Sean/Desktop/nand2tetris/projects/07/StackArithmetic/StackTest/StackTest.vm')
+        self.testParser3 = Parser('/Users/Sean/Desktop/nand2tetris/projects/07/MemoryAccess/BasicTest/BasicTest.vm')
+        self.testParser4 = Parser('/Users/Sean/Desktop/nand2tetris/projects/08/ProgramFlow/BasicLoop/BasicLoop.vm')
+        self.testParser5 = Parser('/Users/Sean/Desktop/nand2tetris/projects/08/ProgramFlow/FibonacciSeries/FibonacciSeries.vm')
+        self.testParser6 = Parser('/Users/Sean/Desktop/nand2tetris/projects/08/FunctionCalls/FibonacciElement/Main.vm')
 
     def test_removeCommentsAndWhitespace(self):
         test_list=['//ssss', '      ', 'one', 'two', '//three', 'three']
@@ -39,8 +43,33 @@ class MyTestCaseParser(unittest.TestCase):
     def test_commandTypePush(self):
         self.assertEqual(self.testParser.commandType(), "C_PUSH")
 
-    #def test_commandTypePop(self):
-    #    self.assertEqual(self.testParser.commandType(), "C_POP")
+    def test_commandTypePop(self):
+        self.testParser3.gotoLine(1)
+        self.assertEqual(self.testParser3.commandType(), "C_POP")
+
+    def test_commandTypeLabel(self):
+        self.testParser4.gotoLine(2)
+        self.assertEqual(self.testParser4.commandType(), "C_LABEL")
+
+    def test_commandTypeGoto(self):
+        self.testParser5.gotoLine(13)
+        self.assertEqual(self.testParser5.commandType(), "C_GOTO")
+
+    def test_commandTypeIfgoto(self):
+        self.testParser5.gotoLine(12)
+        self.assertEqual(self.testParser5.commandType(), "C_IF")
+
+    def test_commandTypeCall(self):
+        self.testParser6.gotoLine(13)
+        self.assertEqual(self.testParser6.commandType(), "C_CALL")
+
+    def test_commandTypeReturn(self):
+        self.testParser6.gotoLine(19)
+        self.assertEqual(self.testParser6.commandType(), "C_RETURN")
+
+    def test_commandTypeFunction(self):
+        self.testParser6.gotoLine(0)
+        self.assertEqual(self.testParser6.commandType(), "C_FUNCTION")
 
     def test_arg1(self):
         self.assertEqual(self.testParser.arg1(), "constant")
@@ -58,6 +87,8 @@ class MyTestCaseParser(unittest.TestCase):
         self.assertEqual(self.testParser.arg2(), "7")
         self.testParser.advance()
         self.assertEqual(self.testParser.arg2(), "8")
+
+
 
 
 
