@@ -273,12 +273,12 @@ class MyTestCaseCodeWriter(unittest.TestCase):
 
     def test_writeArithmeticGT(self):
         answer = ['@SP\t\t//SP--', 'M=M-1', 'A=M\t\t//D=*SP', 'D=M', '@SP\t\t//SP--', 'M=M-1', 'A=M', 'D=M-D',
-                  '@GREATER$1\t// Jump to greater if top item in stack is greater than the one below it', 'D;JGT',
+                  '@GREATER.1\t// Jump to greater if top item in stack is greater than the one below it', 'D;JGT',
                   '@SP', 'A=M',
                   'M=0\t// Not greater therefore set stack entry at SP to 0 and then jump to end infinite loop',
-                  '@SP\t// Increment SP', 'M=M+1', '@END$2', '0;JMP', '(GREATER$1)', '@SP', 'A=M',
+                  '@SP\t// Increment SP', 'M=M+1', '@END.2', '0;JMP', '(GREATER.1)', '@SP', 'A=M',
                   'M=-1\t// We jumped here because top item was greate than item below it so set top Stack entry to -1',
-                  '@SP\t// Increment SP', 'M=M+1', '(END$2)']
+                  '@SP\t// Increment SP', 'M=M+1', '(END.2)']
         self.testCodeWriter.writeArithmetic('gt')
         self.testCodeWriter.close()
         counter = 0
@@ -292,11 +292,11 @@ class MyTestCaseCodeWriter(unittest.TestCase):
 
     def test_writeArithmeticLT(self):
         answer = ['@SP\t\t//SP--', 'M=M-1', 'A=M\t\t//D=*SP', 'D=M', '@SP\t\t//SP--', 'M=M-1', 'A=M', 'D=D-M',
-                  '@LESS$1\t// Jump to less if top item in stack is greater than the one below it', 'D;JGT','@SP', 'A=M',
+                  '@LESS.1\t// Jump to less if top item in stack is greater than the one below it', 'D;JGT','@SP', 'A=M',
                   'M=0\t// Not greater therefore set stack entry at SP to 1 and then jump to end infinite loop',
-                  '@SP\t// Increment SP', 'M=M+1', '@END$2', '0;JMP', '(LESS$1)', '@SP', 'A=M',
+                  '@SP\t// Increment SP', 'M=M+1', '@END.2', '0;JMP', '(LESS.1)', '@SP', 'A=M',
                   'M=-1\t// We jumped here because top item was greater than item below it so set top Stack entry to -1',
-                  '@SP\t// Increment SP', 'M=M+1', '(END$2)']
+                  '@SP\t// Increment SP', 'M=M+1', '(END.2)']
         self.testCodeWriter.writeArithmetic('lt')
         self.testCodeWriter.close()
         counter = 0
@@ -310,12 +310,12 @@ class MyTestCaseCodeWriter(unittest.TestCase):
 
     def test_writeArithmeticEQ(self):
         answer = ['@SP\t\t//SP--', 'M=M-1', 'A=M\t\t//D=*SP', 'D=M', '@SP\t\t//SP--', 'M=M-1', 'A=M', 'D=D-M',
-                  '@NOTEQUAL$2\t// Jump to notequal if top item in stack is not equal to the one below it', 'D;JNE',
+                  '@NOTEQUAL.2\t// Jump to notequal if top item in stack is not equal to the one below it', 'D;JNE',
                   '@SP', 'A=M',
                   'M=-1\t// Equal therefore set stack entry at SP to 1 and then jump to end infinite loop',
-                  '@SP\t// Increment SP', 'M=M+1', '@END$1', '0;JMP', '(NOTEQUAL$2)','@SP', 'A=M',
+                  '@SP\t// Increment SP', 'M=M+1', '@END.1', '0;JMP', '(NOTEQUAL.2)','@SP', 'A=M',
                   'M=0\t// We jumped here because top item was not equal to the item below it so set top Stack entry to 0',
-                  '@SP\t// Increment SP', 'M=M+1', '(END$1)']
+                  '@SP\t// Increment SP', 'M=M+1', '(END.1)']
         self.testCodeWriter.writeArithmetic('eq')
         self.testCodeWriter.close()
         counter = 0
@@ -327,33 +327,89 @@ class MyTestCaseCodeWriter(unittest.TestCase):
             self.assertEqual(line, answer[counter])
             counter += 1
 
-    # def test_writeLabel(self):
-    #     answer = ['(testlabel$1)']
-    #
-    #     self.testCodeWriter.writeLabel('testlabel')
-    #     self.testCodeWriter.close()
-    #     counter = 0
-    #     with open('/tmp/testfile.asm', mode='r') as f:
-    #         lines = f.read().splitlines()
-    #         self.assertNotEqual(len(lines), 0)
-    #     for line in lines:
-    #         print line
-    #         self.assertEqual(line, answer[counter])
-    #         counter += 1
+    def test_writeLabel(self):
+        answer = ['(testfile$testlabel.1)']
+
+        self.testCodeWriter.writeLabel('testlabel')
+        self.testCodeWriter.close()
+        counter = 0
+        with open('/tmp/testfile.asm', mode='r') as f:
+            lines = f.read().splitlines()
+            self.assertNotEqual(len(lines), 0)
+        for line in lines:
+            print line
+            self.assertEqual(line, answer[counter])
+            counter += 1
+
+    def test_writeIf(self):
+        answer = ['@SP', 'M=M-1', 'A=M', 'D=M', '@testfile$testlabel.1', 'D;JNE'  ]
+
+        self.testCodeWriter.writeIf('testlabel')
+        self.testCodeWriter.close()
+        counter = 0
+        with open('/tmp/testfile.asm', mode='r') as f:
+            lines = f.read().splitlines()
+            self.assertNotEqual(len(lines), 0)
+        for line in lines:
+            print line
+            self.assertEqual(line, answer[counter])
+            counter += 1
+
+    def test_Goto(self):
+        answer = ['@testfile$testlabel.1', '0;JMP'  ]
+
+        self.testCodeWriter.writeGoto('testlabel')
+        self.testCodeWriter.close()
+        counter = 0
+        with open('/tmp/testfile.asm', mode='r') as f:
+            lines = f.read().splitlines()
+            self.assertNotEqual(len(lines), 0)
+        for line in lines:
+            print line
+            self.assertEqual(line, answer[counter])
+            counter += 1
+
+    def test_writeFunctionTwo(self):
+        answer = ['(testfunc)\t// Start new Function', '@SP', 'A=M', 'M=0', '@SP', 'M=M+1', '@SP', 'A=M', 'M=0', '@SP', 'M=M+1'    ]
+
+        self.testCodeWriter.writeFunction('testfunc',2)
+        self.testCodeWriter.close()
+        counter = 0
+        with open('/tmp/testfile.asm', mode='r') as f:
+            lines = f.read().splitlines()
+            self.assertNotEqual(len(lines), 0)
+        for line in lines:
+            print line
+            self.assertEqual(line, answer[counter])
+            counter += 1
+
+    def test_writeFunctionZero(self):
+        answer = ['(testfunc)\t// Start new Function']
+
+        self.testCodeWriter.writeFunction('testfunc', 0)
+        self.testCodeWriter.close()
+        counter = 0
+        with open('/tmp/testfile.asm', mode='r') as f:
+            lines = f.read().splitlines()
+            self.assertNotEqual(len(lines), 0)
+        for line in lines:
+            print line
+            self.assertEqual(line, answer[counter])
+            counter += 1
 
     def test_getNewUUIDAnonymous(self):
         UUID = self.testCodeWriter.getNewUUID()
-        self.assertEqual(UUID, '$1')
+        self.assertEqual(UUID, '.1')
         UUID = self.testCodeWriter.getNewUUID()
-        self.assertEqual(UUID,'$2')
+        self.assertEqual(UUID,'.2')
 
     def test_getNewUUIDNamed(self):
         UUID = self.testCodeWriter.getNewUUID('testuuid1')
-        self.assertEqual(UUID, '$1')
+        self.assertEqual(UUID, '.1')
         UUID = self.testCodeWriter.getNewUUID('testuuid2')
-        self.assertEqual(UUID,'$2')
+        self.assertEqual(UUID,'.2')
         UUID = self.testCodeWriter.getNewUUID('testuuid1')
-        self.assertEqual(UUID, '$1')
+        self.assertEqual(UUID, '.1')
 
 
 

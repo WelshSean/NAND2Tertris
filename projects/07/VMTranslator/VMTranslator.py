@@ -94,14 +94,19 @@ class Parser(object):
                 return splitLine[0]
             elif self.commandType() in ['C_LABEL', 'C_IF'] and len(splitLine) >= 1:
                 return splitLine[1]
+            elif self.commandType() == 'C_FUNCTION' and len(splitLine) == 3:
+                return splitLine[1]
             else:
                 return 'C_ERROR_NOMATCH'
 
     def arg2(self):
         """ return the second argument of the VM command"""
+        currentLine = self.lines[self.fileIndex]
+        splitLine = currentLine.split()
         if self.commandType() in ['C_PUSH', 'C_POP', 'C_FUNCTION', 'C_CALL']:
-            currentLine = self.lines[self.fileIndex]
-            return currentLine.split()[2]
+            return splitLine[2]
+        elif self.commandType() == 'C_FUNCTION' and len(splitLine) == 3:
+            return splitLine[2]
         else:
             return 'C_BAD_CALL'
 
@@ -460,6 +465,17 @@ class CodeWriter(object):
         self.file.write('@' + self.strippedFileName + '$' + label + UUID + '\n')
         self.file.write('0;JMP' + '\n')
 
+    def writeFunction(self, functionName, nVars):
+        """ Method opens functions following a declaration """
+        self.file.write('(' + functionName + ')' + '\t// Start new Function' + '\n')
+        for i in range(int(nVars)):
+            self.file.write('@SP' + '\n')
+            self.file.write('A=M' + '\n')
+            self.file.write('M=0' + '\n')
+            self.file.write('@SP' + '\n')
+            self.file.write('M=M+1' + '\n')
+
+
 
 def VMTranslator(fileName):
     vmParse = Parser(fileName)
@@ -487,7 +503,10 @@ def VMTranslator(fileName):
         elif commandType == 'C_GOTO':
             label = vmParse.arg1()
             vmCodeWriter.writeGoto(label)
-
+        elif commandType == 'C_FUNCTION':
+            funcName = vmParse.arg1()
+            nArgs = vmParse.arg2()
+            vmCodeWriter.writeFunction(funcName, nArgs)
         else:
             print commandType + " Error - Catch all reached"
         if vmParse.hasMoreCommands():
