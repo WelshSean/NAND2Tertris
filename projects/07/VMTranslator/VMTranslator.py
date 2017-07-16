@@ -1,5 +1,6 @@
 import re
 import sys
+import os
 
 class Parser(object):
     """
@@ -71,6 +72,12 @@ class Parser(object):
             return 'C_GOTO'
         elif firstCommand == 'if-goto':
             return 'C_IF'
+        elif firstCommand == 'function':
+            return 'C_FUNCTION'
+        elif firstCommand == 'return':
+            return 'C_RETURN'
+        elif firstCommand == 'call':
+            return 'C_CALL'
         else:
             return 'ERROR_NOCOMMANDMATCH'
 
@@ -85,6 +92,8 @@ class Parser(object):
                 return splitLine[1]
             elif self.commandType() == 'C_ARITHMETIC' and len(splitLine) == 1 :
                 return splitLine[0]
+            elif self.commandType() in ['C_LABEL', 'C_IF'] and len(splitLine) >= 1:
+                return splitLine[1]
             else:
                 return 'C_ERROR_NOMATCH'
 
@@ -105,14 +114,30 @@ class CodeWriter(object):
     def __init__(self, fileName):
         self.file = open(fileName, 'w')
         self.fileName=fileName
+        self.strippedFileName = os.path.basename(fileName).split(".")[0]
         self.uuid = 0
+        self.uuids = {}
 
-    def getNewUUID(self):
-        self.uuid += 1
-        return '$' + str(self.uuid)
+    def getNewUUID(self, label='none'):
+        """
+        Both anonymous (label='none') and named labels are valid.
+        For anonymous labels we set the label equal to the label_UUID
+        """
+        print "LABEL:" + label
+        print "UUID: " + str(self.uuid)
+        print "UUIDS: " + str(self.uuids)
+        if label in self.uuids.keys():
+            return '.' + str(self.uuids[label])
+        else:
+            self.uuid += 1
+            if label == 'none':
+                label='label_' + str(self.uuid)
+            self.uuids[label] = self.uuid
+            return '.' + str(self.uuids[label])
 
     def setFileName(self, fileName):
         self.file = open(fileName, 'w')
+        self.strippedFileName = fileName.split(".")[0]
 
     def close(self):
         self.file.close()
@@ -414,6 +439,27 @@ class CodeWriter(object):
         else:
             print "ERROR: no push or pop!"
 
+    def writeLabel(self, label):
+        """ Method creates label statements """
+        UUID = self.getNewUUID(label)
+        self.file.write('(' + self.strippedFileName + '$' + label + UUID + ')' + '\n')
+
+    def writeIf(self, label):
+        """ method creates if-goto statements"""
+        UUID = self.getNewUUID(label)
+        self.file.write('@SP' + '\n')
+        self.file.write('M=M-1' + '\n')
+        self.file.write('A=M' + '\n')
+        self.file.write('D=M' + '\n')
+        self.file.write('@' + self.strippedFileName + '$' + label + UUID + '\n')
+        self.file.write('D;JNE' + '\n')
+
+    def writeGoto(self, label):
+        """ method creates goto statements"""
+        UUID = self.getNewUUID(label)
+        self.file.write('@' + self.strippedFileName + '$' + label + UUID + '\n')
+        self.file.write('0;JMP' + '\n')
+
 
 def VMTranslator(fileName):
     vmParse = Parser(fileName)
@@ -432,6 +478,16 @@ def VMTranslator(fileName):
         elif commandType == 'C_ARITHMETIC':
             print commandType + " ARITHMETIC"
             vmCodeWriter.writeArithmetic(arg1)
+        elif commandType == 'C_LABEL':
+            label  = vmParse.arg1()
+            vmCodeWriter.writeLabel(label)
+        elif commandType == 'C_IF':
+            label = vmParse.arg1()
+            vmCodeWriter.writeIf(label)
+        elif commandType == 'C_GOTO':
+            label = vmParse.arg1()
+            vmCodeWriter.writeGoto(label)
+
         else:
             print commandType + " Error - Catch all reached"
         if vmParse.hasMoreCommands():
