@@ -1,0 +1,37 @@
+/**
+* Implements the Pong game  
+*
+* the user gets to play "squash" in the style of pong.
+*/
+
+class Pong {
+	field int direction;
+	field Ball ball;
+
+/** Constructs a new Pong Game. */
+   constructor Pong new() {
+   	  let ball = Ball.new(100,100, 1, 1);
+      return this;
+   }
+
+   method void runPong(){
+   		var boolean gameLost;
+   		let gameLost = false;
+   		do ball.drawBall();
+   		while (true) {			
+   			do Sys.wait(10);
+   			do ball.moveBall();
+   			let gameLost = ball.getState();
+   			}
+   		return;
+   }
+
+   method void dispose() {
+      do ball.dispose();
+      do Memory.deAlloc(this);
+      return;
+   }
+
+
+
+}

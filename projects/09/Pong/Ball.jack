@@ -1,0 +1,79 @@
+/**
+* Ball class
+*
+* This class is used to represent the ball
+*/
+
+class Ball {
+	field int radius, ScreenXSize, ScreenYSize;
+	field boolean gameLost;
+	static int xpos, ypos;		// x and y components of ball position
+	static int xvel, yvel;		// x and y components of ball velocity
+
+	constructor Ball new(int Axpos, int Aypos, int Axvel, int Ayvel) {
+	let gameLost = false;
+	let xpos = Axpos;
+	let ypos = Aypos;
+	let xvel = Axvel;
+	let yvel = Ayvel;
+	let radius = 5;
+	let ScreenXSize=512;
+	let ScreenYSize=256;
+	return this;
+	}
+
+	/** Disposes this ball. */
+   method void dispose() {
+      do Memory.deAlloc(this);
+      return;
+   }
+
+
+
+     /** returns game state */
+  	method boolean getState(){
+  		return gameLost;
+  	}
+
+     /** Draws the ball on the screen. */
+   	method void drawBall() {
+      do Screen.setColor(true);
+      do Screen.drawCircle(xpos, ypos, radius);
+      return;
+   }
+
+        /** Draws the ball on the screen. */
+   method void clearBall() {
+      do Screen.setColor(false);
+      do Screen.drawCircle(xpos, ypos, radius);
+      return;
+   }
+   		/** Make flip velocity if ball going off screen */
+   method void edgeDetectBall() {
+   		if ( xpos + xvel + radius > (ScreenXSize - 1)) {
+   			let gameLost = true;
+   		}
+   		if ( xpos + xvel - radius < 1) {
+   		   	let xvel = -xvel;
+   		}
+   		if ( ypos + yvel + radius > (ScreenYSize -1)) {
+   			let yvel = -yvel;
+   		}
+   		if ( ypos + yvel - radius < 1) {
+   			let yvel = -yvel;
+   		}
+   		return;
+   		}
+   
+
+   method void moveBall() {
+   	  do edgeDetectBall();
+   	  if (~gameLost){
+   	  	do clearBall();
+   	  	let xpos = xpos + xvel;
+   	  	let ypos = ypos + yvel;
+   	  	do drawBall();
+   	  }
+   	  return;
+   }
+}
