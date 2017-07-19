@@ -14,9 +14,22 @@ class Pong {
       return this;
    }
 
+   /** Draws the outside of the squash court */
+   method void drawWalls(){
+   	do Screen.setColor(true);
+   	do Screen.drawLine(0,0,511,0);
+   	do Screen.drawLine(0,1,511,1);
+   	do Screen.drawLine(0,0,0,255);
+   	do Screen.drawLine(1,0,1,255);
+   	do Screen.drawLine(0,255,511,255);
+   	do Screen.drawLine(0,254,511,254);
+   return;
+   }
+
    method void runPong(){
    		var boolean gameLost;
    		let gameLost = false;
+   		do drawWalls();
    		do ball.drawBall();
    		while (true) {			
    			do Sys.wait(10);

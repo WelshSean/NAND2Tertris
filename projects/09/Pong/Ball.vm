@@ -69,7 +69,7 @@ add
 push this 0
 add
 push this 1
-push constant 1
+push constant 3
 sub
 gt
 if-goto IF_TRUE0
@@ -99,7 +99,7 @@ add
 push this 0
 add
 push this 2
-push constant 1
+push constant 3
 sub
 gt
 if-goto IF_TRUE2
@@ -113,6 +113,8 @@ push static 1
 push static 3
 add
 push this 0
+sub
+push constant 2
 sub
 push constant 1
 lt
