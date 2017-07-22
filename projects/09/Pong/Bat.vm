@@ -1,0 +1,141 @@
+function Bat.new 0
+push constant 3
+call Memory.alloc 1
+pop pointer 0
+push argument 0
+pop static 0
+push constant 30
+pop this 0
+push constant 512
+pop this 1
+push constant 256
+pop this 2
+push pointer 0
+return
+function Bat.dispose 0
+push argument 0
+pop pointer 0
+push pointer 0
+call Memory.deAlloc 1
+pop temp 0
+push constant 0
+return
+function Bat.drawBat 0
+push argument 0
+pop pointer 0
+push this 1
+push constant 2
+sub
+push static 0
+push this 0
+add
+push this 1
+push constant 2
+sub
+push static 0
+push this 0
+sub
+call Screen.drawLine 4
+pop temp 0
+push constant 0
+return
+function Bat.moveBatDown 1
+push argument 0
+pop pointer 0
+push constant 2
+pop local 0
+push static 0
+push local 0
+sub
+push this 0
+sub
+push constant 1
+gt
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push constant 0
+call Screen.setColor 1
+pop temp 0
+push pointer 0
+call Bat.drawBat 1
+pop temp 0
+push static 0
+push local 0
+sub
+pop static 0
+push constant 0
+not
+call Screen.setColor 1
+pop temp 0
+push pointer 0
+call Bat.drawBat 1
+pop temp 0
+label IF_FALSE0
+push constant 0
+return
+function Bat.moveBatUp 1
+push argument 0
+pop pointer 0
+push constant 2
+pop local 0
+push static 0
+push local 0
+add
+push this 0
+add
+push this 2
+push constant 2
+sub
+lt
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push constant 0
+call Screen.setColor 1
+pop temp 0
+push pointer 0
+call Bat.drawBat 1
+pop temp 0
+push static 0
+push local 0
+add
+pop static 0
+push constant 0
+not
+call Screen.setColor 1
+pop temp 0
+push pointer 0
+call Bat.drawBat 1
+pop temp 0
+label IF_FALSE0
+push constant 0
+return
+function Bat.checkCol 1
+push argument 0
+pop pointer 0
+push argument 1
+pop local 0
+push local 0
+push static 0
+push this 0
+sub
+gt
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push local 0
+push static 0
+push this 0
+add
+lt
+if-goto IF_TRUE1
+goto IF_FALSE1
+label IF_TRUE1
+push constant 0
+not
+return
+label IF_FALSE1
+label IF_FALSE0
+push constant 0
+return

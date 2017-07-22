@@ -63,6 +63,8 @@ return
 function Ball.edgeDetectBall 0
 push argument 0
 pop pointer 0
+push constant 0
+pop this 3
 push static 0
 push static 2
 add
@@ -78,13 +80,16 @@ label IF_TRUE0
 push constant 0
 not
 pop this 3
+push static 2
+neg
+pop static 2
 label IF_FALSE0
 push static 0
 push static 2
 add
 push this 0
 sub
-push constant 1
+push constant 3
 lt
 if-goto IF_TRUE1
 goto IF_FALSE1
@@ -127,17 +132,17 @@ pop static 3
 label IF_FALSE3
 push constant 0
 return
+function Ball.getYPos 0
+push argument 0
+pop pointer 0
+push static 1
+return
 function Ball.moveBall 0
 push argument 0
 pop pointer 0
 push pointer 0
 call Ball.edgeDetectBall 1
 pop temp 0
-push this 3
-not
-if-goto IF_TRUE0
-goto IF_FALSE0
-label IF_TRUE0
 push pointer 0
 call Ball.clearBall 1
 pop temp 0
@@ -152,6 +157,5 @@ pop static 1
 push pointer 0
 call Ball.drawBall 1
 pop temp 0
-label IF_FALSE0
 push constant 0
 return

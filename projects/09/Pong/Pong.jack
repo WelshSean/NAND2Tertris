@@ -7,10 +7,12 @@
 class Pong {
 	field int direction;
 	field Ball ball;
+	field Bat bat;
 
 /** Constructs a new Pong Game. */
    constructor Pong new() {
    	  let ball = Ball.new(100,100, 1, 1);
+   	  let bat = Bat.new(100);
       return this;
    }
 
@@ -26,18 +28,44 @@ class Pong {
    return;
    }
 
+   /** Moves the bat in the current direction. */
+   method void moveBat() {
+      if (direction = 1) { do bat.moveBatDown(); }
+      if (direction = 2) { do bat.moveBatUp(); }
+      do Sys.wait(2);  // delays the next movement
+      return;
+   }
+
    method void runPong(){
+   		var char key;  // the key currently pressed by the user
    		var boolean gameLost;
+   		var int score;
    		let gameLost = false;
    		do drawWalls();
    		do ball.drawBall();
-   		while (true) {			
-   			do Sys.wait(10);
-   			do ball.moveBall();
+   		do bat.drawBat();
+   		let score = -1;
+
+   		while (~gameLost) {
+   			let score = score + 1;
+            let key = Keyboard.keyPressed();
+            if (~(key = 0)) {
+            	if (key = 131) { let direction = 1; }   // up arrow
+         		if (key = 133) { let direction = 2; }   // down arrow
+            	do moveBat();
+            }
+         				
+   			do Sys.wait(4);
+			do ball.moveBall();
    			let gameLost = ball.getState();
+   			if (gameLost){
+   				if (bat.checkCol(ball.getYPos())){
+   					let gameLost = false;
+   				}
    			}
-   		return;
-   }
+   		}
+   	return;
+    }
 
    method void dispose() {
       do ball.dispose();

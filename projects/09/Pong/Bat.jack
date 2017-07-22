@@ -1,0 +1,71 @@
+/**
+* Bat class
+*
+* This class is used to represent the bat
+*/
+
+class Bat {
+	field int length, ScreenXSize, ScreenYSize;
+	static int  ypos;		// y position of bat
+
+	constructor Bat new(int Aypos) {
+		let ypos = Aypos;
+		let length = 30;
+		let ScreenXSize=512;
+		let ScreenYSize=256;
+		return this;
+	}
+
+	/** Disposes this bat. */
+    method void dispose() {
+      	do Memory.deAlloc(this);
+      	return;
+   }
+
+    /** Draws the ball on the screen. */
+   	method void drawBat() {
+      	do Screen.drawLine(ScreenXSize-2, ypos+length, ScreenXSize-2, ypos-length);
+      	return;
+   }
+
+   	/** Moves the bat down delta pixes */
+   	method void moveBatDown() {
+   		var int delta;
+   		let delta=2;
+   		if ( ypos - delta - length > 1) {
+   		do Screen.setColor(false);
+   		do drawBat();
+   		let ypos = ypos - delta;
+   		do Screen.setColor(true);
+   		do drawBat();
+   		}
+ 		return;
+  	}
+
+   	   	/** Moves the bat up delta pixes */
+   	method void moveBatUp() {
+   		var int delta;
+   		let delta=2;
+   		if ( ypos + delta + length < (ScreenYSize -2)) {
+   			do Screen.setColor(false);
+   			do drawBat();
+   			let ypos = ypos + delta;
+   			do Screen.setColor(true);
+   			do drawBat();
+   			}
+   		return;
+   	}
+
+   	method boolean checkCol(itn AballYPos) {
+   		var int ballYPos;
+   		let ballYPos = AballYPos;
+   		if ((ballYPos > (ypos - length))){
+   			if ((ballYPos < (ypos + length))){
+   				return true;
+   			}
+   		}
+   		// Else
+   		return false; 
+   	}
+
+ }

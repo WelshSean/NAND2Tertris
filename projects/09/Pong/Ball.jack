@@ -50,10 +50,12 @@ class Ball {
    }
    		/** Make flip velocity if ball going off screen */
    method void edgeDetectBall() {
+   		let gameLost = false;
    		if ( xpos + xvel + radius > (ScreenXSize - 3)) {
    			let gameLost = true;
+   			let xvel = -xvel;
    		}
-   		if ( xpos + xvel - radius < 1) {
+   		if ( xpos + xvel - radius < 3) {
    		   	let xvel = -xvel;
    		}
    		if ( ypos + yvel + radius > (ScreenYSize -3)) {
@@ -64,16 +66,20 @@ class Ball {
    		}
    		return;
    		}
+
+   	method int getYPos() {
+   		return ypos;
+   	}
    
 
    method void moveBall() {
    	  do edgeDetectBall();
-   	  if (~gameLost){
+   	  //if (~gameLost){
    	  	do clearBall();
    	  	let xpos = xpos + xvel;
    	  	let ypos = ypos + yvel;
    	  	do drawBall();
-   	  }
+   	  //}
    	  return;
    }
 }
