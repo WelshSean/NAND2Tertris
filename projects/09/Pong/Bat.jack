@@ -22,7 +22,7 @@ class Bat {
       	return;
    }
 
-    /** Draws the ball on the screen. */
+    /** Draws the bat on the screen. */
    	method void drawBat() {
       	do Screen.drawLine(ScreenXSize-2, ypos+length, ScreenXSize-2, ypos-length);
       	return;

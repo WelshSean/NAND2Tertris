@@ -2,6 +2,11 @@
 * Implements the Pong game  
 *
 * the user gets to play "squash" in the style of pong.
+* This class runs the game - it uses two other classes, "Ball" which represents the ball
+* and "Bat" that represents the Bat.
+* The idea is for the user to avoid the ball hitting the right hand side of the screen.
+*
+* The user should use the up and down arrows on the keyboard in order to move the bat.
 */
 
 class Pong {
@@ -9,26 +14,26 @@ class Pong {
 	field Ball ball;
 	field Bat bat;
 
-/** Constructs a new Pong Game. */
-   constructor Pong new() {
-   	  let ball = Ball.new(100,100, 1, 1);
-   	  let bat = Bat.new(100);
-      return this;
+	/** Constructs a new Pong Game. */
+   	constructor Pong new() {
+   	  	let ball = Ball.new(100,100, 1, 1);
+   	  	let bat = Bat.new(100);
+      	return this;
    }
 
-   /** Draws the outside of the squash court */
-   method void drawWalls(){
-   	do Screen.setColor(true);
-   	do Screen.drawLine(0,0,511,0);
-   	do Screen.drawLine(0,1,511,1);
-   	do Screen.drawLine(0,0,0,255);
-   	do Screen.drawLine(1,0,1,255);
-   	do Screen.drawLine(0,255,511,255);
-   	do Screen.drawLine(0,254,511,254);
-   return;
-   }
+   	/** Draws the outside walles of the squash court */
+   	method void drawWalls(){
+   		do Screen.setColor(true);
+   		do Screen.drawLine(0,0,511,0);
+   		do Screen.drawLine(0,1,511,1);
+   		do Screen.drawLine(0,0,0,255);
+   		do Screen.drawLine(1,0,1,255);
+   		do Screen.drawLine(0,255,511,255);
+   		do Screen.drawLine(0,254,511,254);
+   		return;
+   	}
 
-   /** Moves the bat in the current direction. */
+   /** Moves the bat in the direction selected by the keyboard */
    method void moveBat() {
       if (direction = 1) { do bat.moveBatDown(); }
       if (direction = 2) { do bat.moveBatUp(); }
@@ -37,26 +42,33 @@ class Pong {
    }
 
    method void runPong(){
-   		var char key;  // the key currently pressed by the user
-   		var boolean gameLost;
-   		var int score;
+   		var char key;  						// the key currently pressed by the user
+   		var boolean gameLost;				// holds the state of the game
+   		var int score;						// holds tge score
+
+   		/** Initialise the game */
    		let gameLost = false;
    		do drawWalls();
    		do ball.drawBall();
    		do bat.drawBat();
    		let score = -1;
 
+   		/** Main game loop - repeat until the game is lost*/
    		while (~gameLost) {
    			let score = score + 1;
-            let key = Keyboard.keyPressed();
+            let key = Keyboard.keyPressed();	// Get the users chose of direction
             if (~(key = 0)) {
             	if (key = 131) { let direction = 1; }   // up arrow
          		if (key = 133) { let direction = 2; }   // down arrow
+         		/** Move the users bat */
             	do moveBat();
             }
          				
    			do Sys.wait(4);
+   			/** Move the ball */
 			do ball.moveBall();
+			/** Check of the came is lost - we also do collision checking with the bat here */
+			/** if we've hit the bat instead of going to the end of the court then the ball gets bounced back */
    			let gameLost = ball.getState();
    			if (gameLost){
    				if (bat.checkCol(ball.getYPos())){

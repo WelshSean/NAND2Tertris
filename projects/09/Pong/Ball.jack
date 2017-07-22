@@ -6,20 +6,20 @@
 
 class Ball {
 	field int radius, ScreenXSize, ScreenYSize;
-	field boolean gameLost;
+	field boolean gameLost;		// STore game state
 	static int xpos, ypos;		// x and y components of ball position
 	static int xvel, yvel;		// x and y components of ball velocity
 
 	constructor Ball new(int Axpos, int Aypos, int Axvel, int Ayvel) {
-	let gameLost = false;
-	let xpos = Axpos;
-	let ypos = Aypos;
-	let xvel = Axvel;
-	let yvel = Ayvel;
-	let radius = 5;
-	let ScreenXSize=512;
-	let ScreenYSize=256;
-	return this;
+		let gameLost = false;
+		let xpos = Axpos;
+		let ypos = Aypos;
+		let xvel = Axvel;
+		let yvel = Ayvel;
+		let radius = 5;
+		let ScreenXSize=512;
+		let ScreenYSize=256;
+		return this;
 	}
 
 	/** Disposes this ball. */
@@ -30,19 +30,19 @@ class Ball {
 
 
 
-     /** returns game state */
+    /** returns game state */
   	method boolean getState(){
   		return gameLost;
   	}
 
-     /** Draws the ball on the screen. */
+    /** Draws the ball on the screen. */
    	method void drawBall() {
       do Screen.setColor(true);
       do Screen.drawCircle(xpos, ypos, radius);
       return;
    }
 
-        /** Draws the ball on the screen. */
+   /** Wipes the ball out on the screen. */
    method void clearBall() {
       do Screen.setColor(false);
       do Screen.drawCircle(xpos, ypos, radius);
@@ -51,17 +51,17 @@ class Ball {
    		/** Make flip velocity if ball going off screen */
    method void edgeDetectBall() {
    		let gameLost = false;
-   		if ( xpos + xvel + radius > (ScreenXSize - 3)) {
+   		if ( xpos + xvel + radius > (ScreenXSize - 3)) {			// Rightmost side of screen
    			let gameLost = true;
-   			let xvel = -xvel;
+   			let xvel = -xvel;										
    		}
-   		if ( xpos + xvel - radius < 3) {
+   		if ( xpos + xvel - radius < 3) {							// Leftmost side of screen
    		   	let xvel = -xvel;
    		}
-   		if ( ypos + yvel + radius > (ScreenYSize -3)) {
+   		if ( ypos + yvel + radius > (ScreenYSize -3)) {				// Bottom of screen
    			let yvel = -yvel;
    		}
-   		if ( ypos + yvel - radius -2 < 1) {
+   		if ( ypos + yvel - radius -2 < 1) {							// Top of screen
    			let yvel = -yvel;
    		}
    		return;
@@ -74,12 +74,10 @@ class Ball {
 
    method void moveBall() {
    	  do edgeDetectBall();
-   	  //if (~gameLost){
    	  	do clearBall();
    	  	let xpos = xpos + xvel;
    	  	let ypos = ypos + yvel;
    	  	do drawBall();
-   	  //}
    	  return;
    }
 }
