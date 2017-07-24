@@ -1,0 +1,12 @@
+   method void moveDown() {
+	let y = 234
+	ley y = "Schurgle"
+      if (y) {
+         do Screen.setColor(x);
+         do Screen.drawRectangle(x, y, x, y);
+         let y = y;
+         do Screen.setColor(x);
+         do Screen.drawRectangle(x, y, x, y);
+      }
+      return;
+   }
