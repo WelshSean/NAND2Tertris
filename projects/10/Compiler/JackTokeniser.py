@@ -10,6 +10,7 @@ class JackTokenizer(object):
         with open(fileName) as f:
             self.lines = f.read().splitlines()
         self.lines = self.removeCommentsAndWhitespace(self.lines)
+        self.lines = self.removeCommentsFromList(self.lines)
         self.lines = list(" ".join(self.lines))
         self.ValidTokens = re.compile("[a-zA-Z(){}\[\].,;+=*/&|<>=~]")
         self.StringChars = re.compile("[a-zA-Z]")
@@ -26,15 +27,27 @@ class JackTokenizer(object):
     @staticmethod
     def removeCommentsAndWhitespace(fileList):
         """ when passed a list, this function will remove all entries that are empty lines, whitespace or comments"""
-        return list(filter(lambda x: (not re.match('^ *$', x)and not re.match('^\/\/.*$', x )) , fileList))
+        return list(filter(lambda x: (not re.match('^ *$', x)and not re.match('^\/\/.*$', x )
+                                      and not re.match('^.*/\*\*.*\*/.*$', x)) , fileList))
 
     @staticmethod
     def removeCommentsFromList(fileList):
         """ When passed a list this will remove all entries that are commented in the form /** /*"""
+        retlist=[]
         comment_pattern = re.compile("/\*\*.+?\*/")
         comment_pattern2 = re.compile("/\*.+?\*/")
-        temp =  [comment_pattern.sub("", item) for item in fileList]
-        return [comment_pattern2.sub("", item) for item in temp]
+        comment_pattern3 = re.compile("//.*$")
+        spaces = re.compile('^\s+$')
+        for item in fileList:
+            print(item)
+            item = comment_pattern.sub("", item)
+            item = comment_pattern2.sub("", item)
+            item = comment_pattern3.sub("", item)
+            if not spaces.search(item):
+                retlist.append(item)
+            else:
+                print("Ignoring empty line")
+        return retlist
 
 
     def hasMoreTokens(self):
@@ -46,6 +59,7 @@ class JackTokenizer(object):
         """ loads next valid token"""
         in_token = False
         while True:
+            print(self.lines)
             char = self.lines.pop(0)
             print(char)
             if self.Symbols.match(char):                    # Symbols
